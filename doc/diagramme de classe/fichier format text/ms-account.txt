@@ -1,0 +1,67 @@
+@startuml
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Diagramme de Classes - CCSOP-2026
+
+' --- SERVICE Account ---
+package "ms-account" #FFF3E0 {
+
+    package "Controllers" #PeachPuff {
+        class AccountController {
+            + viewRestaurants()
+	    + viewRestaurant(Long id,RestaurantDTO)
+            + modifyAccount(Long id, UserDTO)
+            + deleteAccount(Long id)
+	    + order(DishDTO)
+        }
+        class AuthController {
+            + login(Credentials)
+            + register(UserDTO)
+        }
+    }
+
+    package "Services" #White {
+        class AccountService {
+            + order(Dish)
+        }
+
+    package "Entities" #White {
+        class User {
+            - Long id
+            - String lastname
+	    - String firstname
+	    - String address
+	    - Char zipcode
+            - String locate
+            - String email
+	    - String phoneNumber
+            - String password
+        }
+        class Restaurant {
+            - Long id
+            - Long ownerId
+            - String name
+            - String address
+	    - Char zipcode
+            - String locate
+	    - String brief
+	    - String description
+        }
+        class Dish {
+            - Long id
+            - Long price
+            - String name
+            - String description
+        }
+        class Type {
+            - Long id
+            - Long name
+        }    
+    AccountController --> AccountService
+}
+}
+}
+
+@enduml

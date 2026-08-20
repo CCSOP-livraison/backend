@@ -1,0 +1,33 @@
+@startuml
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Diagramme de Classes - CCSOP-2026
+
+' --- SERVICE payement ---
+package "ms-payement" #FFF3E0 {
+
+    package "Controllers" #PeachPuff {
+        class PayementController {
+            +payement(BankDTO)
+        }
+    }
+
+    package "Services" #White {
+        class PayementService {
+            +payement(Bank)
+        
+    }
+
+    package "Entities" #White {
+        class Bank {
+            - Long id
+            - String BankCode
+        }
+    }
+    
+    PayementController --> PayementService
+}
+}
+@enduml
