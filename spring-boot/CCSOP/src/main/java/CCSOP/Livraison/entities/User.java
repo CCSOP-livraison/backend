@@ -1,7 +1,8 @@
-package com.example.springboot.entities;
+package CCSOP.Livraison.entities;
 
 import jakarta.persistence.*;
 
+/* commenter pour l'authentification de base.
 @Entity
 public class User {
     @Id
@@ -15,4 +16,7 @@ public class User {
     private String email;
     private String phoneNumber;
     private String password;
+
+
 }
+ */
