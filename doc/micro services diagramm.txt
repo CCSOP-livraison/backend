@@ -1,0 +1,37 @@
+api-end-user-payroll [icon: user]
+api-end-user-customers [icon: user]
+
+DockerEngine [icon: aws-vpc] {
+  DockerNetwork-DMZ{
+    ms-api-gateway [icon: nginx]
+  }
+  DockerNetwork-PAYEMENT{
+      ms-payement [icon: spring]
+  }
+    DockerNetwork-Moderation{
+      ms-moderation [icon: spring]
+    }
+     DockerNetwork-missions{
+       ms-missions [icon: spring]
+    }
+     DockerNetwork-account{
+        ms-account [icon: spring]
+     }
+      ms-CCSOP-database [icon: mysql]
+      ms-CCSOP-volume [icon: database]
+  }
+
+// relations
+api-end-user-payroll   - ms-api-gateway : /api/ccsop/employees
+ms-api-gateway - ms-payement : ms-payement,8080
+ms-api-gateway - ms-moderation : ms-moderation,8081
+ms-api-gateway - ms-missions : ms-missions,8082
+ms-api-gateway -  ms-account : ms-account,8083
+ms-payement - ms-CCSOP-database : 3306
+ms-moderation - ms-CCSOP-database : 3306
+ms-missions - ms-CCSOP-database : 3306
+ ms-account - ms-CCSOP-database : 3306
+ms-CCSOP-database - ms-CCSOP-volume
+
+
+api-end-user-customers   - ms-api-gateway : /api/ccsop/customers
