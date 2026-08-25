@@ -1,5 +1,5 @@
 # Common Spring base image: pre-caches shared Maven dependencies for faster microservice builds.
-FROM maven:3.9.12-eclipse-temurin-21
+FROM maven:3.9.6-eclipse-temurin-21
 
 WORKDIR /workspace
 

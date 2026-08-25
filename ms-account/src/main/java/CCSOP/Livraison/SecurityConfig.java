@@ -21,10 +21,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Désactivé pour les tests API simples
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/public").permitAll()
+                        .requestMatchers("/api/public","/actuator/health").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults()); // Active HTTP Basic Auth
+                .httpBasic(httpBasic->{}); // Active HTTP Basic Auth
 
         return http.build();
     }
