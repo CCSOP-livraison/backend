@@ -32,10 +32,10 @@ import java.util.Collections;
                 String token = authHeader.substring(7);
 
                 if (jwtUtil.validateToken(token)) {
-                    String username = jwtUtil.extractUsername(token);
+                    String mail = jwtUtil.extractMail(token);
 
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+                            new UsernamePasswordAuthenticationToken(mail, null, Collections.emptyList());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
