@@ -1,4 +1,10 @@
 # backend
+## initialized the application 
+cp Sampe.env .env
+docker compose build
+docker compose up -d
+## ran the application
+
 for run the application : 
 mvn spring-boot:run
 
