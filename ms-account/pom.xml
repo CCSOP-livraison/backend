@@ -44,6 +44,13 @@
 			<version>0.13.0</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/com.jongsoft.finance/jpa-repository -->
+		<dependency>
+			<groupId>com.jongsoft.finance</groupId>
+			<artifactId>jpa-repository</artifactId>
+			<version>3.2.0</version>
+			<scope>runtime</scope>
+		</dependency>
 		<!-- Source: https://mvnrepository.com/artifact/org.mvnpm/jsonwebtoken -->
 		<dependency>
 			<groupId>org.mvnpm</groupId>
@@ -60,6 +67,14 @@
 			<artifactId>jakarta.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-test-autoconfigure -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test-autoconfigure</artifactId>
+			<version>4.1.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/org.springframework/org.springframework.web.servlet -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

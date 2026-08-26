@@ -13,16 +13,16 @@ import java.util.Date;
 public class JwtUtil {
 
     // Clé secrète d'au moins 256 bits (32 caractères)
-    private final String SECRET_KEY = "votre_cle_secrete_tres_longue_et_securisee_12345";
+    private final String SECRET_KEY = "ma_cle_secrete_tres_longue_et_securisee_12345678910";
     private final long EXPIRATION_TIME = 86400000; // 24 heures en millisecondes
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String mail) {
         return Jwts.builder()
-                .subject(username)
+                .subject(mail)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
