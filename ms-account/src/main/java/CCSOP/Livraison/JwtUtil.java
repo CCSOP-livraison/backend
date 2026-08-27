@@ -3,6 +3,7 @@ package CCSOP.Livraison;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -12,20 +13,24 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Clé secrète d'au moins 256 bits (32 caractères)
-    private final String SECRET_KEY = "ma_cle_secrete_tres_longue_et_securisee_12345678910";
-    private final long EXPIRATION_TIME = 86400000; // 24 heures en millisecondes
+    // La clé DOIT faire au moins 32 caractères/octets pour HMAC-SHA256
+    private static final String SECRET_STRING = "votre_cle_secrete_tres_longue_qui_fait_au_moins_32_caracteres_12345";
+    private final SecretKey key = Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
+    private final long expirationMs = 86400000; // 24h
+
+    @Value("${jwt.secret:ma_cle_secrete_de_test_par_defaut_32_caracteres_min}")
+    private String secretKey;
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String mail) {
+    public String generateToken(String username) {
         return Jwts.builder()
-                .subject(mail)
+                .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(getSigningKey())
+                .expiration(new Date(System.currentTimeMillis() + expirationMs))
+                .signWith(key) // Syntax pour JJWT 0.12.x
                 .compact();
     }
 

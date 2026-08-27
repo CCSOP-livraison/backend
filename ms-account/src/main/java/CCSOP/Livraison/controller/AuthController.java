@@ -30,33 +30,32 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // Inscription : Hache le mot de passe en BCrypt avant enregistrement
+    // DTO pour capturer les requêtes de login / register
+    public record AuthRequest(String username, String password) {
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(User user) {
-        if (userRepository.findByemail(user.getEmail()).isPresent()) {
+    public ResponseEntity<?> register(@RequestBody AuthRequest request) {
+        if (userRepository.findByEmail(request.username()).isPresent()) {
             return ResponseEntity.badRequest().body("Nom d'utilisateur déjà pris.");
         }
 
-        User user2 = new User();
-        user2.setEmail(user.getEmail());
-        // Hachage BCrypt
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setEmail(request.username());
+        user.setPassword(passwordEncoder.encode(request.password()));
         userRepository.save(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Utilisateur créé avec succès.");
     }
 
-    // Connexion : Vérifie le mot de passe haché et génère le Token JWT
     @PostMapping("/login")
-    public ResponseEntity<?> login() {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
-            // L'AuthenticationManager s'occupe de vérifier le mot de passe en clair
-            // contre le hash BCrypt présent en BDD grâce au PasswordEncoder
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken("mail","password")
+                    new UsernamePasswordAuthenticationToken(request.username(), request.password())
             );
 
-            String token = jwtUtil.generateToken("mail");
+            String token = jwtUtil.generateToken(request.username());
             return ResponseEntity.ok(Map.of("token", token));
 
         } catch (BadCredentialsException e) {

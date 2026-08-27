@@ -2,6 +2,7 @@ package CCSOP.Livraison.entities;
 
 import jakarta.persistence.*;
 
+@Table(name= "\" user\"")
 @Entity
 public class User {
     @Id
