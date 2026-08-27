@@ -29,7 +29,7 @@ public class AuthControllerTest {
         // GIVEN - Initialization of user data
         String userJson = """
                 {
-                    "username": "testuser@domain.com",
+                    "email": "testuser@domain.com",
                     "password": "password123",
                     "lastname": "DuMoulin",
                     "firstname": "Maxime",
@@ -55,7 +55,7 @@ public class AuthControllerTest {
         // GIVEN - Initialization Test data
         String registerJson = """
                 {
-                    "username": "loginuser@domain.com",
+                    "email": "loginuser@domain.com",
                     "password": "password123"
                 }
                 """;
@@ -65,7 +65,7 @@ public class AuthControllerTest {
 
         String loginJson = """
                 {
-                    "username": "loginuser@domain.com",
+                    "email": "loginuser@domain.com",
                     "password": "password123"
                 }
                 """;
@@ -86,7 +86,7 @@ public class AuthControllerTest {
         // GIVEN - Initialization Test data
         String registerJson = """
                 {
-                    "username": "loginbadpw@domain.com",
+                    "email": "loginbadpw@domain.com",
                     "password": "correctpassword"
                 }
                 """;
@@ -96,7 +96,7 @@ public class AuthControllerTest {
 
         String loginJson = """
                 {
-                    "username": "loginbadpw@domain.com",
+                    "email": "loginbadpw@domain.com",
                     "password": "wrongpassword"
                 }
                 """;

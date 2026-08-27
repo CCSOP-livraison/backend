@@ -9,7 +9,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @RestController
@@ -30,18 +29,18 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // DTO pour capturer les requêtes de login / register
-    public record AuthRequest(String username, String password) {
+    // DTO for capturing login/register requests
+    public record AuthRequest(String email, String password) {
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequest request) {
-        if (userRepository.findByEmail(request.username()).isPresent()) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
             return ResponseEntity.badRequest().body("Nom d'utilisateur déjà pris.");
         }
 
         User user = new User();
-        user.setEmail(request.username());
+        user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         userRepository.save(user);
 
@@ -52,10 +51,10 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.username(), request.password())
+                    new UsernamePasswordAuthenticationToken(request.email(), request.password())
             );
 
-            String token = jwtUtil.generateToken(request.username());
+            String token = jwtUtil.generateToken(request.email());
             return ResponseEntity.ok(Map.of("token", token));
 
         } catch (BadCredentialsException e) {
