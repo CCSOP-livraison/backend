@@ -1,0 +1,40 @@
+@startuml
+autonumber
+
+actor Client as client
+participant "API Gateway" as gateway
+participant "MS Account" as ms_account
+
+participant "MS Payment" as ms_payement
+
+' 1. Navigation via la Gateway
+client -> gateway: View restaurants
+gateway -> ms_account: Forward request
+ms_account --> gateway: Restaurants list
+gateway --> client: Show restaurants list
+
+client -> gateway: Choose a restaurant & menu
+gateway -> ms_account: Get restaurant details
+ms_account --> gateway: Details & menu
+gateway --> client: Show menu
+
+' 2. Commande
+client -> gateway: Order a dish
+gateway -> ms_account: Create order
+ms_account --> gateway: Order summary
+gateway --> client: Show order information
+
+' 3. Paiement
+client -> gateway: Pay order
+gateway -> ms_payement: Process payment
+
+alt Successful payment
+    ms_payement --> gateway: Payment approved
+    gateway --> client: Order confirmed & success message
+
+else Insufficient funds / Declined
+    ms_payement --> gateway: Payment declined
+    gateway --> client: Payment failed (insufficient funds)
+end
+
+@enduml
