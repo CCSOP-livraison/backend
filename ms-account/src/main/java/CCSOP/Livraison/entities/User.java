@@ -1,5 +1,6 @@
 package CCSOP.Livraison.entities;
 import jakarta.persistence.*;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -79,5 +80,21 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public @Nullable String getPassword() {
+        return this.password;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public Collection<Role> getRoles() {
+        return this.roles;
     }
 }

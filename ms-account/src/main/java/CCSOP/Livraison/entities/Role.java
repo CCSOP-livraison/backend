@@ -33,4 +33,12 @@ public class Role {
     public void setPrivileges(Collection<Privilege> privileges) {
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<? extends Privilege> getPrivileges() {
+        return this.privileges;
+    }
 }

@@ -21,4 +21,8 @@ public class Privilege {
     public Privilege() {
 
     }
+
+    public String getName() {
+        return this.name;
+    }
 }
