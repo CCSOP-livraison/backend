@@ -1,4 +1,4 @@
-package CCSOP.Livraison;
+package CCSOP.Livraison.Security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
