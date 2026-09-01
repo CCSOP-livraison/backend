@@ -38,10 +38,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            return new org.springframework.security.core.userdetails.User(
-                    " ", " ", true, true, true, true,
-                    getAuthorities(Arrays.asList(
-                            roleRepository.findByName("ROLE_USER"))));
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
         return new org.springframework.security.core.userdetails.User(
@@ -51,20 +48,28 @@ public class MyUserDetailsService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> getAuthorities(
             Collection<Role> roles) {
-
+        if (roles == null) {
+            return List.of();
+        }
         return getGrantedAuthorities(getPrivileges(roles));
     }
 
     private List<String> getPrivileges(Collection<Role> roles) {
-
         List<String> privileges = new ArrayList<>();
         List<Privilege> collection = new ArrayList<>();
         for (Role role : roles) {
-            privileges.add(role.getName());
-            collection.addAll(role.getPrivileges());
+            if (role != null && role.getName() != null) {
+                String roleName = role.getName().startsWith("ROLE_") ? role.getName() : "ROLE_" + role.getName();
+                privileges.add(roleName);
+                if (role.getPrivileges() != null) {
+                    collection.addAll(role.getPrivileges());
+                }
+            }
         }
         for (Privilege item : collection) {
-            privileges.add(item.getName());
+            if (item != null && item.getName() != null) {
+                privileges.add(item.getName());
+            }
         }
         return privileges;
     }

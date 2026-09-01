@@ -2,6 +2,7 @@ package CCSOP.Livraison.entities;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Table(name="t_user")
@@ -21,7 +22,7 @@ public class User {
     private boolean enabled;
     private boolean tokenExpired;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
@@ -96,5 +97,17 @@ public class User {
 
     public Collection<Role> getRoles() {
         return this.roles;
+    }
+    public User(){
+
+    }
+    public User(String email, String password, Role roles){
+        this.email=email;
+        this.password=password;
+        this.roles=new ArrayList<>();
+        if (roles != null) {
+            this.roles.add(roles);
+        }
+        this.enabled = true;
     }
 }
