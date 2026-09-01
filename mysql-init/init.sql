@@ -4,7 +4,7 @@ USE CCSOP_db;
 -- 1. Table Types
 CREATE TABLE Types (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(15) NOT NULL UNIQUE
+    name VARCHAR(30) NOT NULL UNIQUE
 );
 
 -- 2. Table Users
@@ -37,17 +37,17 @@ CREATE TABLE Restaurants (
 );
 
 -- 4. Table Dish
-CREATE TABLE Dishs (
+CREATE TABLE Dish (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     price DECIMAL(4,2) NOT NULL,
-    description VARCHAR(255),
+    description TEXT,
     id_restaurant INT NOT NULL,
     CONSTRAINT fk_dish_restaurant FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id)
 );
 
 -- 5. Table Order 
-CREATE TABLE Orders (
+CREATE TABLE to_order (
     id_user INT NOT NULL,
     id_restaurant INT NOT NULL,
     order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -57,11 +57,19 @@ CREATE TABLE Orders (
 );
 
 -- 6. Table Deliver
-CREATE TABLE Delivers (
+CREATE TABLE Deliver (
     id_customer INT NOT NULL,
     id_deliverer  INT NOT NULL,
     delivery_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_customer, id_deliverer, delivery_date),
     CONSTRAINT fk_deliver_customer FOREIGN KEY (id_customer) REFERENCES Users(id),
     CONSTRAINT fk_deliver_deliverer FOREIGN KEY (id_deliverer) REFERENCES Users(id)
+);
+-- 7. Table own
+CREATE TABLE Own (
+    id_owner INT NOT NULL,
+    id_restaurant  INT NOT NULL,
+    PRIMARY KEY (id_owner, id_restaurant),
+    CONSTRAINT fk_own_owner FOREIGN KEY (id_owner) REFERENCES Users(id),
+    CONSTRAINT fk_own_restaurant FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id)
 );

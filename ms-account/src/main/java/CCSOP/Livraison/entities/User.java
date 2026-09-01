@@ -1,8 +1,8 @@
 package CCSOP.Livraison.entities;
-
 import jakarta.persistence.*;
 
-/* commenter pour l'authentification de base.
+import java.util.Collection;
+
 @Entity
 public class User {
     @Id
@@ -16,7 +16,16 @@ public class User {
     private String email;
     private String phoneNumber;
     private String password;
+    private boolean enabled;
+    private boolean tokenExpired;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
 }
- */
