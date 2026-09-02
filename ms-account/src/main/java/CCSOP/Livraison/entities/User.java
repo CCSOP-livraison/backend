@@ -1,8 +1,11 @@
 package CCSOP.Livraison.entities;
 import jakarta.persistence.*;
+import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+@Table(name="t_user")
 @Entity
 public class User {
     @Id
@@ -19,7 +22,7 @@ public class User {
     private boolean enabled;
     private boolean tokenExpired;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
@@ -28,4 +31,83 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public void setLocate(String locate) {
+        this.locate = locate;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setTokenExpired(boolean tokenExpired) {
+        this.tokenExpired = tokenExpired;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public @Nullable String getPassword() {
+        return this.password;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
+    public User(){
+
+    }
+    public User(String email, String password, Role roles){
+        this.email=email;
+        this.password=password;
+        this.roles=new ArrayList<>();
+        if (roles != null) {
+            this.roles.add(roles);
+        }
+        this.enabled = true;
+    }
 }
