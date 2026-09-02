@@ -2,12 +2,14 @@ package CCSOP.Livraison.controller;
 
 import CCSOP.Livraison.Repository.UserRepository;
 import CCSOP.Livraison.Service.AuthService;
+import CCSOP.Livraison.entities.Role;
 import CCSOP.Livraison.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +24,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        boolean isValid = authService.authenticate(request.email(), request.password());
+       Collection<Role> roles =authService.authenticate(request.email(), request.password());
 
-        if (isValid) {
+        if (roles!=null) {
             return ResponseEntity.ok(Map.of(
                     "message", "Connexion réussie !",
                     "user", request.email(),

@@ -10,10 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AuthService {
@@ -50,11 +47,13 @@ public class AuthService {
         }
     }
 
-    public boolean authenticate(String email, String rawPassword) {
+    public Collection<Role> authenticate(String email, String rawPassword) {
         User user = this.userrepository.findByEmail(email);
         if(user!=null){
-            return passwordEncoder.matches(rawPassword, user.getPassword());
+            if(passwordEncoder.matches(rawPassword, user.getPassword())){
+                return user.getRoles();
+            }
         }
-        return false;
+        return null;
     }
 }
