@@ -1,5 +1,4 @@
 package CCSOP.Livraison;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,7 +10,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +35,7 @@ public class AccountSecurityAccessTest {
     class AdminControllerAccessTests {
 
         @Test
-        @WithMockUser(username = "admin@domain.com", roles = {"ADMIN"})
+        @WithMockUser(username = "jean.dupont@example.com", roles = {"ADMIN"})
         @DisplayName("Un administrateur (ROLE_ADMIN) doit pouvoir accéder à /admin")
         void adminCanAccessAdminController() throws Exception {
             mockMvc.perform(get("/admin"))
@@ -45,7 +43,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "customer@domain.com", roles = {"CUSTOMER"})
+        @WithMockUser(username = "camille.petit@example.com", roles = {"CUSTOMER"})
         @DisplayName("Un client (ROLE_CUSTOMER) ne doit PAS pouvoir accéder à /admin (403 Forbidden)")
         void customerCannotAccessAdminController() throws Exception {
             mockMvc.perform(get("/admin"))
@@ -53,7 +51,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "deliver@domain.com", roles = {"DELIVER"})
+        @WithMockUser(username = "lucas.bernard@example.com", roles = {"DELIVER"})
         @DisplayName("Un livreur (ROLE_DELIVER) ne doit PAS pouvoir accéder à /admin (403 Forbidden)")
         void deliverCannotAccessAdminController() throws Exception {
             mockMvc.perform(get("/admin"))
@@ -61,7 +59,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "moderation@domain.com", roles = {"MODERATION"})
+        @WithMockUser(username = "sophie.martin@example.com", roles = {"MODERATION"})
         @DisplayName("Un modérateur (ROLE_MODERATION) ne doit PAS pouvoir accéder à /admin (403 Forbidden)")
         void moderationCannotAccessAdminController() throws Exception {
             mockMvc.perform(get("/admin"))
@@ -82,7 +80,7 @@ public class AccountSecurityAccessTest {
     class CustomerControllerAccessTests {
 
         @Test
-        @WithMockUser(username = "customer@domain.com", roles = {"CUSTOMER"})
+        @WithMockUser(username = "camille.petit@example.com", roles = {"CUSTOMER"})
         @DisplayName("Un client (ROLE_CUSTOMER) doit pouvoir accéder à /customer")
         void customerCanAccessCustomerController() throws Exception {
             mockMvc.perform(get("/customer"))
@@ -90,7 +88,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "admin@domain.com", roles = {"ADMIN"})
+        @WithMockUser(username = "jean.dupont@example.com", roles = {"ADMIN"})
         @DisplayName("Un administrateur (ROLE_ADMIN) ne doit PAS pouvoir accéder à /customer (403 Forbidden)")
         void adminCannotAccessCustomerController() throws Exception {
             mockMvc.perform(get("/customer"))
@@ -98,7 +96,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "deliver@domain.com", roles = {"DELIVER"})
+        @WithMockUser(username = "lucas.bernard@example.com", roles = {"DELIVER"})
         @DisplayName("Un livreur (ROLE_DELIVER) ne doit PAS pouvoir accéder à /customer (403 Forbidden)")
         void deliverCannotAccessCustomerController() throws Exception {
             mockMvc.perform(get("/customer"))
@@ -106,7 +104,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "moderation@domain.com", roles = {"MODERATION"})
+        @WithMockUser(username = "sophie.martin@example.com", roles = {"MODERATION"})
         @DisplayName("Un modérateur (ROLE_MODERATION) ne doit PAS pouvoir accéder à /customer (403 Forbidden)")
         void moderationCannotAccessCustomerController() throws Exception {
             mockMvc.perform(get("/customer"))
@@ -127,7 +125,7 @@ public class AccountSecurityAccessTest {
     class DeliverControllerAccessTests {
 
         @Test
-        @WithMockUser(username = "deliver@domain.com", roles = {"DELIVER"})
+        @WithMockUser(username = "lucas.bernard@example.com", roles = {"DELIVER"})
         @DisplayName("Un livreur (ROLE_DELIVER) doit pouvoir accéder à /deliver")
         void deliverCanAccessDeliverController() throws Exception {
             mockMvc.perform(get("/deliver"))
@@ -135,7 +133,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "admin@domain.com", roles = {"ADMIN"})
+        @WithMockUser(username = "jean.dupont@example.com", roles = {"ADMIN"})
         @DisplayName("Un administrateur (ROLE_ADMIN) ne doit PAS pouvoir accéder à /deliver (403 Forbidden)")
         void adminCannotAccessDeliverController() throws Exception {
             mockMvc.perform(get("/deliver"))
@@ -143,7 +141,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "customer@domain.com", roles = {"CUSTOMER"})
+        @WithMockUser(username = "camille.petit@example.com", roles = {"CUSTOMER"})
         @DisplayName("Un client (ROLE_CUSTOMER) ne doit PAS pouvoir accéder à /deliver (403 Forbidden)")
         void customerCannotAccessDeliverController() throws Exception {
             mockMvc.perform(get("/deliver"))
@@ -151,7 +149,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "moderation@domain.com", roles = {"MODERATION"})
+        @WithMockUser(username = "sophie.martin@example.com", roles = {"MODERATION"})
         @DisplayName("Un modérateur (ROLE_MODERATION) ne doit PAS pouvoir accéder à /deliver (403 Forbidden)")
         void moderationCannotAccessDeliverController() throws Exception {
             mockMvc.perform(get("/deliver"))
@@ -172,7 +170,7 @@ public class AccountSecurityAccessTest {
     class ModerationControllerAccessTests {
 
         @Test
-        @WithMockUser(username = "moderation@domain.com", roles = {"MODERATION"})
+        @WithMockUser(username = "sophie.martin@example.com", roles = {"MODERATION"})
         @DisplayName("Un modérateur (ROLE_MODERATION) doit pouvoir accéder à /moderation")
         void moderationCanAccessModerationController() throws Exception {
             mockMvc.perform(get("/moderation"))
@@ -180,7 +178,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "admin@domain.com", roles = {"ADMIN"})
+        @WithMockUser(username = "jean.dupont@example.com", roles = {"ADMIN"})
         @DisplayName("Un administrateur (ROLE_ADMIN) ne doit PAS pouvoir accéder à /moderation (403 Forbidden)")
         void adminCannotAccessModerationController() throws Exception {
             mockMvc.perform(get("/moderation"))
@@ -188,7 +186,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "customer@domain.com", roles = {"CUSTOMER"})
+        @WithMockUser(username = "camille.petit@example.com", roles = {"CUSTOMER"})
         @DisplayName("Un client (ROLE_CUSTOMER) ne doit PAS pouvoir accéder à /moderation (403 Forbidden)")
         void customerCannotAccessModerationController() throws Exception {
             mockMvc.perform(get("/moderation"))
@@ -196,7 +194,7 @@ public class AccountSecurityAccessTest {
         }
 
         @Test
-        @WithMockUser(username = "deliver@domain.com", roles = {"DELIVER"})
+        @WithMockUser(username = "lucas.bernard@example.com", roles = {"DELIVER"})
         @DisplayName("Un livreur (ROLE_DELIVER) ne doit PAS pouvoir accéder à /moderation (403 Forbidden)")
         void deliverCannotAccessModerationController() throws Exception {
             mockMvc.perform(get("/moderation"))
