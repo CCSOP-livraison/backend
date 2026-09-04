@@ -9,6 +9,17 @@ docker compose up -d
 
 for run the application : 
 
-for test simple authentification : 
+for create account : 
+curl -X POST http://localhost/auth/register  -H "Content-Type: application/json"   -d '{
+    "email": "exemple@email.com",
+    "password": "votre_mot_de_passe",
+    "firstname": "Jean",
+    "lastname": "Dupont",
+    "address": "123 rue Principale",
+    "zipcode": "1000",
+    "locate": "Lausanne",
+    "phoneNumber": "+41210000000"
+  }'
 
-curl -d '{"email":"user@domain.com","password":"password123"}' -H "Content-Type: application/json"  -X POST  http://localhost/auth/login  
+authentification : 
+http://localhost/auth/login  

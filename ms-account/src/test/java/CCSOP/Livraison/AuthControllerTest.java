@@ -143,4 +143,114 @@ public class AuthControllerTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("Email ou mot de passe incorrect"));
     }
+
+    @Test
+    @DisplayName("Inscription réussie pour un nouvel utilisateur via /auth/register")
+    void testRegisterSuccess() throws Exception {
+        String json = """
+            {
+                "email": "nouveau.client@example.com",
+                "password": "Password123!",
+                "firstname": "Alice",
+                "lastname": "Durand",
+                "address": "15 Rue de la République",
+                "zipcode": "75002",
+                "locate": "Paris",
+                "phoneNumber": "+33698765432"
+            }
+        """;
+
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Inscription réussie !"))
+                .andExpect(jsonPath("$.user").value("nouveau.client@example.com"));
+    }
+
+    @Test
+    @DisplayName("Échec de l'inscription si l'email existe déjà (409 Conflict)")
+    void testRegisterEmailAlreadyExists() throws Exception {
+        String json = """
+            {
+                "email": "jean.dupont@example.com",
+                "password": "newpassword123",
+                "firstname": "Jean",
+                "lastname": "Dupont"
+            }
+        """;
+
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.error").value("Un utilisateur avec cet email existe déjà"));
+    }
+
+    @Test
+    @DisplayName("Échec de l'inscription si l'email est manquant ou vide (400 Bad Request)")
+    void testRegisterMissingEmail() throws Exception {
+        String json = """
+            {
+                "email": "",
+                "password": "somePassword123"
+            }
+        """;
+
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("L'email et le mot de passe sont obligatoires"));
+    }
+
+    @Test
+    @DisplayName("Échec de l'inscription si le mot de passe est manquant ou vide (400 Bad Request)")
+    void testRegisterMissingPassword() throws Exception {
+        String json = """
+            {
+                "email": "valid.email@example.com",
+                "password": ""
+            }
+        """;
+
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("L'email et le mot de passe sont obligatoires"));
+    }
+
+    @Test
+    @DisplayName("Un utilisateur nouvellement inscrit peut se connecter via /auth/login")
+    void testLoginAfterRegister() throws Exception {
+        String registerJson = """
+            {
+                "email": "login.after.reg@example.com",
+                "password": "securePassword456",
+                "firstname": "Bob",
+                "lastname": "Test"
+            }
+        """;
+
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(registerJson))
+                .andExpect(status().isCreated());
+
+        String loginJson = """
+            {
+                "email": "login.after.reg@example.com",
+                "password": "securePassword456"
+            }
+        """;
+
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Connexion réussie !"))
+                .andExpect(jsonPath("$.user").value("login.after.reg@example.com"))
+                .andExpect(jsonPath("$.roles[0].name").value("CUSTOMER"));
+    }
 }

@@ -95,6 +95,34 @@ public class User {
         return this.enabled;
     }
 
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public String getZipcode() {
+        return this.zipcode;
+    }
+
+    public String getLocate() {
+        return this.locate;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public boolean isTokenExpired() {
+        return this.tokenExpired;
+    }
+
     public Collection<Role> getRoles() {
         return this.roles;
     }
