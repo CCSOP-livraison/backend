@@ -17,37 +17,10 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserRepository userrepository;
-    private final RoleRepository roleRepository;
 
     @Autowired
     public AuthService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userrepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
-    @PostConstruct
-    public void init() {
-        initUser("admin@domain.com", "password123", "ADMIN");
-        initUser("moderation@domain.com", "password123", "MODERATION");
-        initUser("customer@domain.com", "password123", "CUSTOMER");
-        initUser("deliver@domain.com", "password123", "DELIVER");
-    }
-
-    private void initUser(String email, String rawPassword, String roleName) {
-        Role role = roleRepository.findByName(roleName);
-        if (role == null) {
-            role = roleRepository.findByName("ROLE_" + roleName);
-        }
-        if (role == null) {
-            role = new Role(roleName);
-            role = roleRepository.save(role);
-        }
-
-        User user = userrepository.findByEmail(email);
-        if (user == null) {
-            user = new User(email, passwordEncoder.encode(rawPassword), role);
-            user.setEnabled(true);
-            userrepository.save(user);
-        }
     }
 
     public Collection<Role> authenticate(String email, String rawPassword) {
