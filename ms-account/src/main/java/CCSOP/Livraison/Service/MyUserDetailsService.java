@@ -1,12 +1,11 @@
 package CCSOP.Livraison.Service;
 
-import CCSOP.Livraison.Repository.RoleRepository;
 import CCSOP.Livraison.Repository.UserRepository;
 import CCSOP.Livraison.entities.Privilege;
 import CCSOP.Livraison.entities.Role;
 import CCSOP.Livraison.entities.User;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,12 +24,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private MessageSource messages;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
+    @NullMarked
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {

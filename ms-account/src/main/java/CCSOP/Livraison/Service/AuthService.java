@@ -1,10 +1,8 @@
 package CCSOP.Livraison.Service;
 
-import CCSOP.Livraison.Repository.RoleRepository;
 import CCSOP.Livraison.Repository.UserRepository;
 import CCSOP.Livraison.entities.Role;
 import CCSOP.Livraison.entities.User;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +17,7 @@ public class AuthService {
     private final UserRepository userrepository;
 
     @Autowired
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository) {
+    public AuthService(UserRepository userRepository) {
         this.userrepository = userRepository;
     }
 
