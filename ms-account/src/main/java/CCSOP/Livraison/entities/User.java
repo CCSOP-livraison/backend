@@ -5,7 +5,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Table(name="t_user")
+@Table(name="users")
 @Entity
 public class User {
     @Id

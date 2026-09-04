@@ -4,10 +4,10 @@ import CCSOP.Livraison.Repository.RoleRepository;
 import CCSOP.Livraison.Repository.UserRepository;
 import CCSOP.Livraison.entities.Role;
 import CCSOP.Livraison.entities.User;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,11 +18,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserRepository userrepository;
     private final RoleRepository roleRepository;
+
     @Autowired
     public AuthService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userrepository = userRepository;
         this.roleRepository = roleRepository;
-
+    }
+    @PostConstruct
+    public void init() {
         initUser("admin@domain.com", "password123", "ADMIN");
         initUser("moderation@domain.com", "password123", "MODERATION");
         initUser("customer@domain.com", "password123", "CUSTOMER");
@@ -49,8 +52,8 @@ public class AuthService {
 
     public Collection<Role> authenticate(String email, String rawPassword) {
         User user = this.userrepository.findByEmail(email);
-        if(user!=null){
-            if(passwordEncoder.matches(rawPassword, user.getPassword())){
+        if (user != null) {
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
                 return user.getRoles();
             }
         }

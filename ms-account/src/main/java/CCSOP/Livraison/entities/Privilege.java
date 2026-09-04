@@ -1,7 +1,7 @@
 package CCSOP.Livraison.entities;
 import jakarta.persistence.*;
 import java.util.Collection;
-
+@Table(name="privileges")
 @Entity
 public class Privilege {
 

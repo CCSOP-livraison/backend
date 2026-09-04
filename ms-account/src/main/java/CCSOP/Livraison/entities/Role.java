@@ -1,7 +1,7 @@
 package CCSOP.Livraison.entities;
 import jakarta.persistence.*;
 import java.util.Collection;
-
+@Table(name="roles")
 @Entity
 public class Role {
 
