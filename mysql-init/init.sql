@@ -279,7 +279,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'ADMIN'),
 (2, 'MODERATION'),
 (3, 'DELIVER'),
-(4, 'CUSTOMER');
+(4, 'CUdeliverSTOMER');
 
 INSERT INTO `roles_seq` (`next_val`) VALUES (5);
 
