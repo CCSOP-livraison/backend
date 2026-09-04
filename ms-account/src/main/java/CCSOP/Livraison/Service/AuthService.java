@@ -1,31 +1,56 @@
 package CCSOP.Livraison.Service;
 
+import CCSOP.Livraison.Repository.RoleRepository;
+import CCSOP.Livraison.Repository.UserRepository;
+import CCSOP.Livraison.entities.Role;
+import CCSOP.Livraison.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final Map<String, String> userDatabase = new HashMap<>();
+    private final UserRepository userrepository;
+    private final RoleRepository roleRepository;
 
-    public AuthService() {
-        userDatabase.put("user@domain.com", passwordEncoder.encode("password123"));
-        userDatabase.put("admin@domain.com", passwordEncoder.encode("admin2026"));
+    @Autowired
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userrepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
-    public boolean authenticate(String email, String rawPassword) {
-        String storedHash = userDatabase.get(email);
+    public Collection<Role> authenticate(String email, String rawPassword) {
+        User user = this.userrepository.findByEmail(email);
+        if (user != null) {
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
+                return user.getRoles();
+            }
+        }
+        return null;
+    }
 
-        if (storedHash == null) {
-            return false; // Utilisateur inconnu
+    public User register(User user, String rawPassword) {
+        if (this.userrepository.findByEmail(user.getEmail()) != null) {
+            throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà");
         }
 
-        // Compare le mot de passe reçu avec le hash en mémoire
-        return passwordEncoder.matches(rawPassword, storedHash);
+        user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setEnabled(true);
+        user.setTokenExpired(false);
+
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            Role defaultRole = roleRepository.findByName("CUSTOMER");
+            if (defaultRole == null) {
+                defaultRole = roleRepository.save(new Role("CUSTOMER"));
+            }
+            user.setRoles(List.of(defaultRole));
+        }
+
+        return this.userrepository.save(user);
     }
 }
