@@ -15,6 +15,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+SET FOREIGN_KEY_CHECKS = 0;
+
 CREATE DATABASE IF NOT EXISTS CCSOP_db;
 USE CCSOP_db;
 
@@ -110,7 +112,7 @@ CREATE TABLE `restaurants` (
   `address` varchar(45) DEFAULT NULL,
   `zipcode` char(4) DEFAULT NULL,
   `locate` varchar(18) DEFAULT NULL,
-  `summary` varchar(20) DEFAULT NULL,
+  `summary` varchar(100) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -279,7 +281,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'ADMIN'),
 (2, 'MODERATION'),
 (3, 'DELIVER'),
-(4, 'CUdeliverSTOMER');
+(4, 'CUSTOMER');
 
 INSERT INTO `roles_seq` (`next_val`) VALUES (5);
 
