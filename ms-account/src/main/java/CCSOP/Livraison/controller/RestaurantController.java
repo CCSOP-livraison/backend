@@ -1,6 +1,8 @@
 package CCSOP.Livraison.controller;
 
 import CCSOP.Livraison.Repository.RestaurantRepository;
+import CCSOP.Livraison.Service.DishService;
+import CCSOP.Livraison.entities.Dish;
 import CCSOP.Livraison.entities.Restaurant;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +19,11 @@ import java.util.Map;
 public class RestaurantController {
 
     private final RestaurantRepository restaurantRepository;
+    private final DishService dishService ;
 
-    public RestaurantController(RestaurantRepository restaurantRepository) {
+    public RestaurantController(RestaurantRepository restaurantRepository, DishService dishService) {
         this.restaurantRepository = restaurantRepository;
+        this.dishService = dishService;
     }
 
     @GetMapping
@@ -37,5 +41,10 @@ public class RestaurantController {
             errorResponse.put("error", "Restaurant non trouvé");
             return ResponseEntity.status(404).body(errorResponse);
         }
+    }
+    @GetMapping("/{restaurantId}/dishes")
+    public ResponseEntity<List<Dish>> getAllDishs( @PathVariable Long restaurantId) {
+        List<Dish> dishes = dishService.getDishesByRestaurant(restaurantId) ;
+        return ResponseEntity.ok(dishes);
     }
 }
