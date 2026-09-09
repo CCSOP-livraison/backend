@@ -31,10 +31,12 @@ class DishControllerTest {
     @Test
     @DisplayName("GET restaurants/restaurantId}/dishes")
     void getDishesByRestaurant_ShouldReturnListOfDishes_WhenRestaurantExists() throws Exception {
+        //GIVEN
         long restaurantId = 1L;
-        // WHEN & THEN
+        // WHEN
         mockMvc.perform(get("/restaurants/{restaurantId}/dishes",restaurantId)
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -50,10 +52,12 @@ class DishControllerTest {
     @Test
     @DisplayName("GET restaurants/{restaurantId}/dishes - Liste vide")
     void getDishesByRestaurant_ShouldReturnEmptyList_WhenNoDishesFound() throws Exception {
+        //GIVEN
         long restaurantId = 9999L;
-        // WHEN & THEN
+        // WHEN
         mockMvc.perform(get("/restaurants/{restaurantId}/dishes",restaurantId)
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }

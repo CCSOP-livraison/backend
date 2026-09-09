@@ -32,8 +32,10 @@ public class RestaurantControllerTest {
     @Test
     @DisplayName("Récupération de la liste de tous les restaurants via /restaurants")
     void testGetAllRestaurantsSuccess() throws Exception {
+        //WHEN
         mockMvc.perform(get("/restaurants")
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").exists())
@@ -46,10 +48,12 @@ public class RestaurantControllerTest {
     @Test
     @DisplayName("Récupération d'un restaurant spécifique par son ID via /restaurants/{id}")
     void testGetRestaurantByIdSuccess() throws Exception {
-        long restaurantId = 1L; // Assurez-vous qu'un restaurant avec cet ID existe dans votre base de test
-
+        //GIVEN
+        long restaurantId = 1L;
+        //WHEN
         mockMvc.perform(get("/restaurants/{id}", restaurantId)
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(restaurantId))
                 .andExpect(jsonPath("$.name").exists())
@@ -64,10 +68,12 @@ public class RestaurantControllerTest {
     @Test
     @DisplayName("Échec de la récupération si le restaurant n'existe pas (404 Not Found)")
     void testGetRestaurantByIdNotFound() throws Exception {
+        //GIVEN
         long nonExistentId = 9999L;
-
+        //WHEN
         mockMvc.perform(get("/restaurants/{id}", nonExistentId)
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").exists());
     }
