@@ -16,7 +16,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 SET FOREIGN_KEY_CHECKS = 0;
-
+SET NAMES utf8mb4;
 CREATE DATABASE IF NOT EXISTS CCSOP_db;
 USE CCSOP_db;
 
@@ -114,6 +114,7 @@ CREATE TABLE `restaurants` (
   `locate` varchar(18) DEFAULT NULL,
   `summary` varchar(100) DEFAULT NULL,
   `description` text,
+  `picture` Text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -323,9 +324,9 @@ INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
 -- 6. Insertion des Restaurants (Restaurants)
 -- Note: summary max 20 chars
 -- ------------------------------------------------------
-INSERT INTO `restaurants` (`id`, `name`, `address`, `zipcode`, `locate`, `summary`, `description`) VALUES
-(1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '6902', 'Lyon', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.'),
-(2, 'La Trattoria Bellecour', '14 Rue de la République', '6902', 'Lyon', 'Spécialités italien', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.');
+INSERT INTO `restaurants` (`id`, `name`, `address`, `zipcode`, `locate`, `summary`, `description`,`picture`) VALUES
+(1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '6902', 'Lausanne', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10"),
+(2, 'La Trattoria Bellecour', '14 Rue de la République', '6902', 'Renens', 'Spécialités italien', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10");
 
 -- ------------------------------------------------------
 -- 7. Table de liaison Propriétaires (Own)

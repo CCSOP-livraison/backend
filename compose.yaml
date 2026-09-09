@@ -6,11 +6,17 @@ services:
     image: mysql:8.0
     container_name: ms-CCSOP-database
     restart: always
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: "-Dfile.encoding=UTF-8"
     volumes:
       -  ${MYSQL_VOLUME}:/var/lib/mysql
       - ./mysql-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
@@ -28,6 +34,8 @@ services:
   ms-account:
     build: ms-account
     container_name: ms-account
+    ports:
+      - "8080:8080"
     depends_on:
       ms-CCSOP-database:
         condition: service_healthy
@@ -36,6 +44,9 @@ services:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       PRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: "-Dfile.encoding=UTF-8"
     networks:
       - databases
       - ms-account

@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/api/auth/**", "/error","/actuator/health").permitAll()
+                        .requestMatchers("/auth/**", "/api/auth/**", "/error","/actuator/health","/restaurants/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/deliver/**").hasRole("DELIVER")
