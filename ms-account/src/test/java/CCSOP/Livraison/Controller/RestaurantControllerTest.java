@@ -37,7 +37,10 @@ public class RestaurantControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").exists())
-                .andExpect(jsonPath("$[0].name").exists());
+                .andExpect(jsonPath("$[0].name").exists())
+                .andExpect(jsonPath("$[0].picture").exists())
+                .andExpect(jsonPath("$[0].summary").exists());
+
     }
 
     @Test
@@ -52,6 +55,9 @@ public class RestaurantControllerTest {
                 .andExpect(jsonPath("$.name").exists())
                 .andExpect(jsonPath("$.address").exists())
                 .andExpect(jsonPath("$.zipcode").exists())
+                .andExpect(jsonPath("$.summary").exists())
+                .andExpect(jsonPath("$.description").exists())
+                .andExpect(jsonPath("$.picture").exists())
                 .andExpect(jsonPath("$.locate").exists());
     }
 

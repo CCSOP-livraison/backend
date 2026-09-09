@@ -15,6 +15,8 @@ public class Restaurant {
     private String locate;
     private String picture;
 
+
+
     public long getId() {
         return this.id;
     }
@@ -33,6 +35,15 @@ public class Restaurant {
 
     public String getLocate() {
         return this.locate;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public String getSummary() {
+        return this.summary;
+    }
+    public String getPicture() {
+        return this.picture;
     }
 
 }

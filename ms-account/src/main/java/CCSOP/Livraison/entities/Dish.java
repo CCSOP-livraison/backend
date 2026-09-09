@@ -7,7 +7,8 @@ public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private float price;
+    @Column(columnDefinition = "DECIMAL(10,2)")
+    private Double price;
     private String name;
     private String description;
     @Column(name = "id_restaurant")
@@ -17,7 +18,7 @@ public class Dish {
         return this.id;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return this.price;
     }
 
@@ -25,7 +26,7 @@ public class Dish {
         return this.name;
     }
 
-    public String description() {
+    public String getDescription() {
         return this.description;
     }
     public Long getRestaurant_id(){
