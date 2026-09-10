@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Deliver, Long> {
-    List<Deliver> findByDeliverId(int deliverId);
-    List<Deliver> findByCustomerId(int customerId);
+    List<Deliver> findByDeliverId(Long deliverId);
+    List<Deliver> findByCustomerId(Long customerId);
 }

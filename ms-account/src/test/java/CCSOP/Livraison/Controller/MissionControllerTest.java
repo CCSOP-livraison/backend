@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -66,12 +65,12 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$.customer").exists())
                 .andExpect(jsonPath("$.customer.lastname").exists())
                 .andExpect(jsonPath("$.customer.firstname").exists())
-                .andExpect(jsonPath("$.customer.address.street").exists())
-                .andExpect(jsonPath("$.customer.address.locality").exists())
+                .andExpect(jsonPath("$.customer.address").exists())
+                .andExpect(jsonPath("$.customer.zipcode").exists())
+                .andExpect(jsonPath("$.customer.locate").exists())
                 .andExpect(jsonPath("$.dishs[0].restaurant.zipcode").exists())
                 .andExpect(jsonPath("$.dishs[0].restaurant.street").exists())
-                .andExpect(jsonPath("$.dishs[0].restaurant.locality").exists())
-                .andExpect(jsonPath("$.customer.address.zipcode").exists());
+                .andExpect(jsonPath("$.dishs[0].restaurant.locality").exists());
     }
 
     @Test
@@ -92,7 +91,7 @@ public class MissionControllerTest {
     @DisplayName("Récupération de toutes les commandes associées à un livreur via /deliveries/deliver/{deliverId}")
     void testGetDeliveriesByDeliverIdSuccess() throws Exception {
         // GIVEN
-        int deliverId = 5;
+        Long deliverId = 3L;
 
         // WHEN
         mockMvc.perform(get("/deliveries/deliver/{deliverId}", deliverId)
@@ -108,7 +107,7 @@ public class MissionControllerTest {
     @DisplayName("Récupération de toutes les commandes associées à un client via /deliveries/customer/{customerId}")
     void testGetDeliveriesByCustomerIdSuccess() throws Exception {
         // GIVEN
-        int customerId = 12;
+        Long customerId = 4L;
 
         // WHEN
         mockMvc.perform(get("/deliveries/customer/{customerId}", customerId)

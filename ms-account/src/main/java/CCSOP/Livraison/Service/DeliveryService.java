@@ -21,11 +21,11 @@ public class DeliveryService {
         return deliveryRepository.findById(id);
     }
 
-    public List<Deliver> getDeliveriesByDeliverId(int deliverId) {
+    public List<Deliver> getDeliveriesByDeliverId(Long deliverId) {
         return deliveryRepository.findByDeliverId(deliverId);
     }
 
-    public List<Deliver> getDeliveriesByCustomerId(int customerId) {
+    public List<Deliver> getDeliveriesByCustomerId(Long customerId) {
         return deliveryRepository.findByCustomerId(customerId);
     }
 }
