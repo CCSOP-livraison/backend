@@ -44,7 +44,7 @@ class DishControllerTest {
                 .andExpect(jsonPath("$[0].name", is("Quenelle de Brochet")))
                 .andExpect(jsonPath("$[0].price", is(18.50)))
                 .andExpect(jsonPath("$[0].description", is("Quenelle artisanale nappée de sa sauce Nantua d exception.")))
-                .andExpect(jsonPath("$[0].restaurant_id", is(1)))
+                .andExpect(jsonPath("$[0].restaurant.id", is(1)))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("Salade Lyonnaise")));
     }

@@ -11,14 +11,25 @@ public class Deliver {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @Column(name = "id_status")
-    private Long statusId;
-    @Column(name = "id_deliverer")
-    private Long deliverId;
-    @Column(name = "id_customer")
-    private Long customerId;
-    @ManyToMany
-    private List<Dish> dishs;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private Status status; //
+
+    @ManyToOne
+    @JoinColumn(name = "deliver_id")
+    private User deliver; //
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private User customer;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "deliveries_dishs",
+            joinColumns = @JoinColumn(name = "deliver_id"),
+            inverseJoinColumns = @JoinColumn(name = "dishs_id")
+    )
+    private List<Dish> orders;
     private Date delivery_date;
 
 
@@ -34,20 +45,20 @@ public class Deliver {
         return delivery_date;
     }
 
-    public Long getStatus() {
-        return statusId;
+    public Status getStatus() {
+        return status;
     }
 
-    public Long getDeliver() {
-        return deliverId;
+    public User getDeliver() {
+        return deliver;
     }
 
-    public Long getCustomer() {
-        return customerId;
+    public User getCustomer() {
+        return customer;
     }
 
     public List<Dish> getDishs()
     {
-        return dishs;
+        return orders;
     }
 }

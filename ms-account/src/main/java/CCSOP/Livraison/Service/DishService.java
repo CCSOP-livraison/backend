@@ -17,7 +17,7 @@ public class DishService {
     public List<Dish> getDishesByRestaurant(long restaurantId) {
         List<Dish> dishes=new ArrayList<>();
         for(Dish dish : dishRepository.findAll()){
-            if(dish.getRestaurant_id()==restaurantId){
+            if(dish.getRestaurant().getId()==restaurantId){
                 dishes.add(dish);
             }
         }

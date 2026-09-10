@@ -71,15 +71,15 @@ INSERT INTO status_deliveries (id, name) VALUES
 -- ------------------------------------------------------
 -- 10. Insertion des Livraisons (Deliveries)
 -- ------------------------------------------------------
-INSERT INTO deliveries (id, name,id_customer, id_deliverer, id_status,delivery_date) VALUES
-(1,'CMD-3000404',4, 3,2, '2026-09-01 13:10:00'),
-(2,'CMD-3000405',5, 3,2,'2026-09-02 20:20:00'),
-(3,'CMD-3000406',4, 3,3,'2026-09-03 20:50:00');
+INSERT INTO deliveries (id, name, customer_id, deliver_id, status_id, delivery_date) VALUES
+(1, 'CMD-3000404', 4, 3, 2, '2026-09-01 13:10:00'),
+(2, 'CMD-3000405', 5, 3, 2, '2026-09-02 20:20:00'),
+(3, 'CMD-3000406', 4, 3, 3, '2026-09-03 20:50:00');
 
 -- ------------------------------------------------------
 -- 9. Insertion des Commandes (deliveries_order)
 -- ------------------------------------------------------
 INSERT INTO deliveries_dishs (id,dishs_id, deliver_id, quantity) VALUES
 (1,4, 1, 2),
-(2,5, 2, 1),
-(3,4, 2, 1);
+(2,5, 1, 1),
+(3,4, 1, 1);

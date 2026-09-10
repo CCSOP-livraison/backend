@@ -11,8 +11,9 @@ public class Dish {
     private Double price;
     private String name;
     private String description;
-    @Column(name = "id_restaurant")
-    private Long restaurantId;
+    @JoinColumn(name = "id_restaurant")
+    @ManyToOne
+    private Restaurant restaurant;
 
     public long getId() {
         return this.id;
@@ -29,7 +30,7 @@ public class Dish {
     public String getDescription() {
         return this.description;
     }
-    public Long getRestaurant_id(){
-        return this.restaurantId;
+    public Restaurant getRestaurant(){
+        return this.restaurant;
     }
 }
