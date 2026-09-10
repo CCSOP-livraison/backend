@@ -1,6 +1,6 @@
 package CCSOP.Livraison.Repository;
 
-import CCSOP.Livraison.entities.Role;
+import CCSOP.Livraison.Entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,6 @@
-package CCSOP.Livraison.controller;
+package CCSOP.Livraison.Controller;
 
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("customer")

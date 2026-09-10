@@ -1,6 +1,6 @@
 package CCSOP.Livraison.Repository;
 
-import CCSOP.Livraison.entities.Restaurant;
+import CCSOP.Livraison.Entities.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

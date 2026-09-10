@@ -1,8 +1,8 @@
-package CCSOP.Livraison.controller;
+package CCSOP.Livraison.Controller;
 
 import CCSOP.Livraison.Service.AuthService;
-import CCSOP.Livraison.entities.Role;
-import CCSOP.Livraison.entities.User;
+import CCSOP.Livraison.Entities.Role;
+import CCSOP.Livraison.Entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

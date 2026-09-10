@@ -1,16 +1,16 @@
-package CCSOP.Livraison.controller;
+package CCSOP.Livraison.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+
 
 @RestController
-@RequestMapping("moderation")
-public class ModerationController {
+@RequestMapping("deliver")
+public class DeliverController {
+
     @GetMapping
     public String helloWorld() {
 
         // Returning a simple "Hello World" response
         return "Hello World";
     }
-
-    }
+}

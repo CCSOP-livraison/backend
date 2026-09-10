@@ -1,4 +1,4 @@
-package CCSOP.Livraison.entities;
+package CCSOP.Livraison.Entities;
 
 import jakarta.persistence.*;
 
