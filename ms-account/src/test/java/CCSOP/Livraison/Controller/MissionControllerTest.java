@@ -31,7 +31,7 @@ public class MissionControllerTest {
     @DisplayName("Récupération d'une commande spécifique par son ID via /deliveries/{id}")
     void testGetDeliveriesWithoutDeliverSuccess() throws Exception {
         // GIVEN
-        long deliveryId = 1L;
+        long deliveryId = 4L;
 
         // WHEN
         mockMvc.perform(get("/deliveries", deliveryId)
@@ -44,7 +44,8 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$.[0].dishs[0].restaurant.picture").exists())
                 .andExpect(jsonPath("$.[0].dishs[0].restaurant.zipcode").exists())
                 .andExpect(jsonPath("$.[0].dishs[0].restaurant.address").exists())
-                .andExpect(jsonPath("$.[0].dishs[0].restaurant.locate").exists());
+                .andExpect(jsonPath("$.[0].dishs[0].restaurant.locate").exists())
+                .andExpect(jsonPath("$.[0].deliver").doesNotExist());
     }
 
     @Test

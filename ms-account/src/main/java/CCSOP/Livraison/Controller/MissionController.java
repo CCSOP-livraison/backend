@@ -18,7 +18,7 @@ public class MissionController {
 
     @GetMapping
     public ResponseEntity<List<Deliver>> getAllDeliveries() {
-        List<Deliver> deliveries = deliveryService.getAllDeliveries();
+        List<Deliver> deliveries = deliveryService.getAllDeliveriesNotAttribute();
         return ResponseEntity.ok(deliveries);
     }
 

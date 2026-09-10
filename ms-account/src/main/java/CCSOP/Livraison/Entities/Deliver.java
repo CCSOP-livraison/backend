@@ -1,5 +1,6 @@
 package CCSOP.Livraison.Entities;
 import jakarta.persistence.*;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Date;
 import java.util.List;
@@ -13,11 +14,11 @@ public class Deliver {
     private String name;
     @ManyToOne
     @JoinColumn(name = "status_id")
-    private Status status; //
+    private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "deliver_id")
-    private User deliver; //
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "deliver_id",nullable = true)
+    private User deliver;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
