@@ -58,3 +58,28 @@ INSERT INTO dishs (id, name, price, description, id_restaurant) VALUES
 (4, 'Pizza Margherita', 11.50, 'Sauce tomate, mozzarella di bufala, basilic frais.', 2),
 (5, 'Tiramisu Classico', 6.50, 'Dessert italien traditionnel au café et mascarpone.', 2),
 (6, 'Pâtes Carbonara', 14.00, 'Pâtes fraîches avec guanciale, jaune d œuf et pecorino romano.', 2);
+
+-- ------------------------------------------------------
+-- 9. Insertion des status de commande (status_deliveries)
+-- ------------------------------------------------------
+INSERT INTO status_deliveries (id, name) VALUES
+(1, 'pending'),
+(2, 'preparing'),
+ (3, 'delivering'),
+(4, 'delivered');
+
+-- ------------------------------------------------------
+-- 10. Insertion des Livraisons (Deliveries)
+-- ------------------------------------------------------
+INSERT INTO deliveries (id, name,id_customer, id_deliverer, id_status,delivery_date) VALUES
+(1,'CMD-3000404',4, 3,2, '2026-09-01 13:10:00'),
+(2,'CMD-3000405',5, 3,2,'2026-09-02 20:20:00'),
+(3,'CMD-3000406',4, 3,3,'2026-09-03 20:50:00');
+
+-- ------------------------------------------------------
+-- 9. Insertion des Commandes (deliveries_order)
+-- ------------------------------------------------------
+INSERT INTO deliveries_dishs (id,dishs_id, deliver_id, quantity) VALUES
+(1,4, 1, 2),
+(2,5, 2, 1),
+(3,4, 2, 1);
