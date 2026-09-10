@@ -104,6 +104,7 @@ public class MissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[0].status").exists())
                 .andExpect(jsonPath("$[0].name").exists());
     }
 
