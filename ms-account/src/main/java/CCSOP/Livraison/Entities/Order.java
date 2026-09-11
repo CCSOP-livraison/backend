@@ -8,9 +8,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "deliver_id")
+   @Column(name = "id_deliver")
     private Long deliverId;
-    @Column(name = "dishs_id")
+    @Column(name = "id_dishs")
     private Long dishId;
     private int quantity;
 }

@@ -31,7 +31,7 @@ CREATE TABLE `deliveries` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `id_customer` bigint NOT NULL,
-  `id_deliverer` bigint NOT NULL,
+  `id_deliverer` bigint NULL,
   `id_status` bigint NOT NULL,
   `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -185,14 +185,14 @@ DROP TABLE IF EXISTS `deliveries_dishs`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `deliveries_dishs` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `dishs_id` bigint NOT NULL,
-  `deliver_id` bigint NOT NULL,
+  `id_dishs` bigint NOT NULL,
+  `id_deliver` bigint NOT NULL,
   `quantity` INT NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_orders_dish` (`dishs_id`),
-  KEY `fk_orders_deliveries` (`deliver_id`),
-  CONSTRAINT `fk_orders_dish` FOREIGN KEY (`dishs_id`) REFERENCES `dishs` (`id`),
-  CONSTRAINT `fk_orders_deliveries` FOREIGN KEY (`deliver_id`) REFERENCES `deliveries` (`id`)
+  KEY `fk_orders_dish` (`id_dishs`),
+  KEY `fk_orders_deliveries` (`id_deliver`),
+  CONSTRAINT `fk_orders_dish` FOREIGN KEY (`id_dishs`) REFERENCES `dishs` (`id`),
+  CONSTRAINT `fk_orders_deliveries` FOREIGN KEY (`id_deliver`) REFERENCES `deliveries` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -204,12 +204,12 @@ DROP TABLE IF EXISTS `roles_privileges`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roles_privileges` (
-  `role_id` bigint NOT NULL,
-  `privilege_id` bigint NOT NULL,
-  KEY `FK5yjwxw2gvfyu76j3rgqwo685u` (`privilege_id`),
-  KEY `FK9h2vewsqh8luhfq71xokh4who` (`role_id`),
-  CONSTRAINT `FK5yjwxw2gvfyu76j3rgqwo685u` FOREIGN KEY (`privilege_id`) REFERENCES `privileges` (`id`),
-  CONSTRAINT `FK9h2vewsqh8luhfq71xokh4who` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+  `id_role` bigint NOT NULL,
+  `id_privilege` bigint NOT NULL,
+  KEY `FK5yjwxw2gvfyu76j3rgqwo685u` (`id_privilege`),
+  KEY `FK9h2vewsqh8luhfq71xokh4who` (`id_role`),
+  CONSTRAINT `FK5yjwxw2gvfyu76j3rgqwo685u` FOREIGN KEY (`id_privilege`) REFERENCES `privileges` (`id`),
+  CONSTRAINT `FK9h2vewsqh8luhfq71xokh4who` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -221,12 +221,12 @@ DROP TABLE IF EXISTS `users_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users_roles` (
-  `user_id` bigint NOT NULL,
-  `role_id` bigint NOT NULL,
-  KEY `FKt4v0rrweyk393bdgt107vdx0x` (`role_id`),
-  KEY `FK48qhl0k3dvjwm8v1dg614tlqd` (`user_id`),
-  CONSTRAINT `FK48qhl0k3dvjwm8v1dg614tlqd` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+  `id_user` bigint NOT NULL,
+  `id_role` bigint NOT NULL,
+  KEY `FKt4v0rrweyk393bdgt107vdx0x` (`id_role`),
+  KEY `FK48qhl0k3dvjwm8v1dg614tlqd` (`id_user`),
+  CONSTRAINT `FK48qhl0k3dvjwm8v1dg614tlqd` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -287,7 +287,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 -- ------------------------------------------------------
 -- 3. Association Rôles - Privilèges (roles_privileges)
 -- ------------------------------------------------------
-INSERT INTO `roles_privileges` (`role_id`, `privilege_id`) VALUES
+INSERT INTO `roles_privileges` (`id_role`, `id_privilege`) VALUES
 -- ADMIN a tous les privilèges
 (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
 -- OWNER peut lire, écrire et gérer ses restaurants
@@ -311,7 +311,7 @@ INSERT INTO `users` (`id`, `lastname`, `firstname`, `address`, `zipcode`, `locat
 -- ------------------------------------------------------
 -- 5. Association Utilisateurs - Rôles (users_roles)
 -- ------------------------------------------------------
-INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
+INSERT INTO `users_roles` (`id_user`, `id_role`) VALUES
 (1, 1), -- Jean (Admin)
 (2, 2), -- Sophie (Restaurateur)
 (3, 3), -- Lucas (Livreur)
@@ -365,7 +365,7 @@ INSERT INTO `deliveries` (`id`, `name`,`id_customer`, `id_deliverer`, `id_status
 -- ------------------------------------------------------
 -- 9. Insertion des Commandes (deliveries_order)
 -- ------------------------------------------------------
-INSERT INTO `deliveries_dishs` (`id`,`dishs_id`, `deliver_id`, `quantity`) VALUES
+INSERT INTO `deliveries_dishs` (`id`,`id_dishs`, `id_deliver`, `quantity`) VALUES
 (1,4, 1, 2),
 (2,5, 2, 1),
 (3,4, 2, 1);

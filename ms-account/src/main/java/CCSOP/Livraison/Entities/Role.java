@@ -17,9 +17,9 @@ public class Role {
     @JoinTable(
             name = "roles_privileges",
             joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
+                    name = "id_role", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
-                    name = "privilege_id", referencedColumnName = "id"))
+                    name = "id_privilege", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
     public Role(String name) {

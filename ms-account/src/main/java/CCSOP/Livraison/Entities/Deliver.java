@@ -13,22 +13,22 @@ public class Deliver {
     private long id;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "id_status")
     private Status status;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "deliver_id",nullable = true)
+    @JoinColumn(name = "id_deliverer",nullable = true)
     private User deliver;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "id_customer")
     private User customer;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "deliveries_dishs",
-            joinColumns = @JoinColumn(name = "deliver_id"),
-            inverseJoinColumns = @JoinColumn(name = "dishs_id")
+            joinColumns = @JoinColumn(name = "id_deliver"),
+            inverseJoinColumns = @JoinColumn(name = "id_dishs")
     )
     private List<Dish> orders;
     private Date delivery_date;
