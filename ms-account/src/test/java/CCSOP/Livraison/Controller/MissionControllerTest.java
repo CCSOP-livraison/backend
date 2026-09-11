@@ -40,6 +40,7 @@ public class MissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.[0].id").value(deliveryId))
+                .andExpect(jsonPath("$.[0].status.name").exists())
                 .andExpect(jsonPath("$.[0].orders").isArray())
                 .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.picture").exists())
                 .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.zipcode").exists())
@@ -61,7 +62,7 @@ public class MissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(deliveryId))
                 .andExpect(jsonPath("$.name").exists())
-                .andExpect(jsonPath("$.status").exists())
+                .andExpect(jsonPath("$.status.name").exists())
                 .andExpect(jsonPath("$.deliver.lastname").exists())
                 .andExpect(jsonPath("$.deliver.firstname").exists())
                 .andExpect(jsonPath("$.orders").isArray())
@@ -105,7 +106,7 @@ public class MissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").exists())
-                .andExpect(jsonPath("$[0].status").exists())
+                .andExpect(jsonPath("$[0].status.name").exists())
                 .andExpect(jsonPath("$[0].name").exists());
     }
 
@@ -123,6 +124,6 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists())
-                .andExpect(jsonPath("$[0].status").exists());
+                .andExpect(jsonPath("$[0].status.name").exists());
     }
 }
