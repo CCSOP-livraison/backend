@@ -40,11 +40,11 @@ public class MissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.[0].id").value(deliveryId))
-                .andExpect(jsonPath("$.[0].dishs").isArray())
-                .andExpect(jsonPath("$.[0].dishs[0].restaurant.picture").exists())
-                .andExpect(jsonPath("$.[0].dishs[0].restaurant.zipcode").exists())
-                .andExpect(jsonPath("$.[0].dishs[0].restaurant.address").exists())
-                .andExpect(jsonPath("$.[0].dishs[0].restaurant.locate").exists())
+                .andExpect(jsonPath("$.[0].orders").isArray())
+                .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.picture").exists())
+                .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.zipcode").exists())
+                .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.address").exists())
+                .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.locate").exists())
                 .andExpect(jsonPath("$.[0].deliver").doesNotExist());
     }
 
@@ -64,17 +64,18 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$.status").exists())
                 .andExpect(jsonPath("$.deliver.lastname").exists())
                 .andExpect(jsonPath("$.deliver.firstname").exists())
-                .andExpect(jsonPath("$.dishs").isArray())
-                .andExpect(jsonPath("$.dishs[0].name").exists())
+                .andExpect(jsonPath("$.orders").isArray())
+                .andExpect(jsonPath("$.orders[0].dish.name").exists())
                 .andExpect(jsonPath("$.customer").exists())
                 .andExpect(jsonPath("$.customer.lastname").exists())
                 .andExpect(jsonPath("$.customer.firstname").exists())
                 .andExpect(jsonPath("$.customer.address").exists())
                 .andExpect(jsonPath("$.customer.zipcode").exists())
                 .andExpect(jsonPath("$.customer.locate").exists())
-                .andExpect(jsonPath("$.dishs[0].restaurant.zipcode").exists())
-                .andExpect(jsonPath("$.dishs[0].restaurant.address").exists())
-                .andExpect(jsonPath("$.dishs[0].restaurant.locate").exists());
+                .andExpect(jsonPath("$.orders[0].dish.restaurant.zipcode").exists())
+                .andExpect(jsonPath("$.orders[0].dish.restaurant.address").exists())
+                .andExpect(jsonPath("$.orders[0].quantity").exists())
+                .andExpect(jsonPath("$.orders[0].dish.restaurant.locate").exists());
     }
 
     @Test

@@ -8,9 +8,20 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   @Column(name = "id_deliver")
-    private Long deliverId;
-    @Column(name = "id_dishs")
-    private Long dishId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_deliver")
+    private Deliver deliver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_dishs")
+    private Dish dish;
     private int quantity;
+
+    public Dish getDish() {
+        return dish;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

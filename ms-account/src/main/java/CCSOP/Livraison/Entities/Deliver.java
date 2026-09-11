@@ -1,6 +1,5 @@
 package CCSOP.Livraison.Entities;
 import jakarta.persistence.*;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Date;
 import java.util.List;
@@ -24,13 +23,8 @@ public class Deliver {
     @JoinColumn(name = "id_customer")
     private User customer;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "deliveries_dishs",
-            joinColumns = @JoinColumn(name = "id_deliver"),
-            inverseJoinColumns = @JoinColumn(name = "id_dishs")
-    )
-    private List<Dish> orders;
+    @OneToMany(mappedBy = "deliver", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Order> orders;
     private Date delivery_date;
 
 
@@ -57,8 +51,7 @@ public class Deliver {
     public User getCustomer() {
         return customer;
     }
-
-    public List<Dish> getDishs()
+    public List<Order> getOrders()
     {
         return orders;
     }
