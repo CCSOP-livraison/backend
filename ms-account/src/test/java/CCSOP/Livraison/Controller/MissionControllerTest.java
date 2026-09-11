@@ -46,6 +46,7 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.zipcode").exists())
                 .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.address").exists())
                 .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.locate").exists())
+                .andExpect(jsonPath("$.[0].orders[0].dish.restaurant.name").exists())
                 .andExpect(jsonPath("$.[0].deliver").doesNotExist());
     }
 
@@ -76,7 +77,8 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$.orders[0].dish.restaurant.zipcode").exists())
                 .andExpect(jsonPath("$.orders[0].dish.restaurant.address").exists())
                 .andExpect(jsonPath("$.orders[0].quantity").exists())
-                .andExpect(jsonPath("$.orders[0].dish.restaurant.locate").exists());
+                .andExpect(jsonPath("$.orders[0].dish.restaurant.locate").exists())
+                .andExpect(jsonPath("$.orders[0].dish.restaurant.name").exists());
     }
 
     @Test

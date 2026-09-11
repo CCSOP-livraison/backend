@@ -368,7 +368,8 @@ INSERT INTO `deliveries` (`id`, `name`,`id_customer`, `id_deliverer`, `id_status
 INSERT INTO `deliveries_dishs` (`id`,`id_dishs`, `id_deliver`, `quantity`) VALUES
 (1,4, 1, 2),
 (2,5, 2, 1),
-(3,4, 2, 1);
+(3,4, 2, 1),
+(4,4, 3, 1);
 
 
 
