@@ -44,4 +44,14 @@ public class MissionController {
         List<Deliver> deliveries = deliveryService.getDeliveriesByCustomerId(customerId);
         return ResponseEntity.ok(deliveries);
     }
+
+    public record CreateDeliveryRequest(Long customerId, List<Map<String, Object>> menu, List<Map<String, Object>> orders) {}
+
+    @PostMapping
+    public ResponseEntity<Deliver> createDelivery(@RequestBody CreateDeliveryRequest request) {
+        List<Map<String, Object>> menu = request.menu() != null ? request.menu() : request.orders();
+        Deliver created = deliveryService.createDelivery(request.customerId(), menu);
+        return ResponseEntity.status(201).body(created);
+    }
 }
+

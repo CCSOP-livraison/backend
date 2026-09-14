@@ -9,8 +9,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import tools.jackson.databind.ObjectMapper;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -19,6 +27,8 @@ public class MissionControllerTest {
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setup() {
@@ -127,5 +137,33 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists())
                 .andExpect(jsonPath("$[0].status.name").exists());
+    }
+    @Test
+    @DisplayName("Création réussie d'une livraison avec un ID client et une liste de plats")
+    void testCreateDeliverySuccess() throws Exception {
+        // GIVEN
+        Map<String, Object> requestPayload = new HashMap<>();
+        requestPayload.put("customerId", 4L);
+        List<Map<String, Object>> menu = List.of(
+                Map.of("dishId", 1L, "quantity", 2),
+                Map.of("dishId", 3L, "quantity", 1)
+        );
+        requestPayload.put("menu", menu); // Ou "orders", selon ce qu'attend votre contrôleur
+        String jsonRequest = objectMapper.writeValueAsString(requestPayload);
+
+        // WHEN & THEN
+        mockMvc.perform(post("/deliveries")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isCreated()) // Ou isOk() selon votre code (201 Created est recommandé pour un POST)
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.customer.id").value(4L))
+                .andExpect(jsonPath("$.orders").isArray())
+                .andExpect(jsonPath("$.orders[0].dish.id").value(1L))
+                .andExpect(jsonPath("$.orders[0].quantity").value(2))
+                .andExpect(jsonPath("$.orders.length()").value(2))
+                .andExpect(jsonPath("$.status.name").value("pending"))
+                .andExpect(jsonPath("$.deliver").isEmpty())
+                .andExpect(jsonPath("$.delivery_date").value(LocalDate.now().toString()));
     }
 }

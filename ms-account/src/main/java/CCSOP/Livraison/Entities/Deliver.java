@@ -25,8 +25,38 @@ public class Deliver {
 
     @OneToMany(mappedBy = "deliver", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders;
+
+    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date delivery_date;
 
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setDeliver(User deliver) {
+        this.deliver = deliver;
+    }
+
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setDelivery_date(java.util.Date delivery_date) {
+        this.delivery_date = delivery_date;
+    }
 
     public long getId() {
         return this.id;
@@ -36,7 +66,7 @@ public class Deliver {
         return this.name;
     }
 
-    public Date getDelivery_date() {
+    public java.util.Date getDelivery_date() {
         return delivery_date;
     }
 
@@ -51,8 +81,8 @@ public class Deliver {
     public User getCustomer() {
         return customer;
     }
-    public List<Order> getOrders()
-    {
+
+    public List<Order> getOrders() {
         return orders;
     }
 }
