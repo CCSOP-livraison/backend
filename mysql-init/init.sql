@@ -352,7 +352,8 @@ INSERT INTO `status_deliveries` (`id`, `name`) VALUES
 (1, 'pending'),
 (2, 'preparing'),
 (3, 'delivering'),
-(4, 'delivered');
+(4, 'delivered'),
+(5, 'closed');
 
 -- ------------------------------------------------------
 -- 10. Insertion des Livraisons (Deliveries)
