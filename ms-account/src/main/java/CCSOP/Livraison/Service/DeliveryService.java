@@ -9,6 +9,7 @@ import CCSOP.Livraison.Repository.DeliveryRepository;
 import CCSOP.Livraison.Repository.DishRepository;
 import CCSOP.Livraison.Repository.StatusRepository;
 import CCSOP.Livraison.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,44 @@ public class DeliveryService {
     public Optional<Deliver> getDeliveryById(Long id) {
         return deliveryRepository.findById(id);
     }
+
+    public Deliver putStatusAssignByDeliverer(Long id, Long deliverId) {
+        Deliver deliver = deliveryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
+        if(deliver.getStatus().getName().equals("pending")){
+            User deliverer = userRepository.findById(deliverId)
+                    .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
+            deliver.setDeliver(deliverer);
+            Status deliveredStatus = statusRepository.findByName("preparing")
+                    .orElseThrow(() -> new IllegalStateException("Le statut 'delivered' est introuvable en base de données"));
+            deliver.setStatus(deliveredStatus);
+        }
+        return deliveryRepository.save(deliver);
+    }
+
+    public Deliver putStatusDelivered (Long id) {
+        Deliver deliver = deliveryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
+
+        if(deliver.getStatus().getName().equals("preparing")){
+            Status deliveredStatus = statusRepository.findByName("delivered")
+                    .orElseThrow(() -> new IllegalStateException("Le statut 'delivered' est introuvable en base de données"));
+            deliver.setStatus(deliveredStatus);
+        }
+        return deliveryRepository.save(deliver);
+    }
+
+    public Deliver putStatusClosedByClient(Long id) {
+        Deliver deliver = deliveryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
+        if(deliver.getStatus().getName().equals("delivered")){
+            Status deliveredStatus = statusRepository.findByName("closed")
+                    .orElseThrow(() -> new IllegalStateException("Le statut 'delivered' est introuvable en base de données"));
+            deliver.setStatus(deliveredStatus);
+        }
+        return deliveryRepository.save(deliver);
+    }
+
 
     public List<Deliver> getDeliveriesByDeliverId(Long deliverId) {
         return deliveryRepository.findByDeliverId(deliverId);

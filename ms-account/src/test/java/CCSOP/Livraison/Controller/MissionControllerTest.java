@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -137,6 +136,55 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists())
                 .andExpect(jsonPath("$[0].status.name").exists());
+    }
+
+    @Test
+    @DisplayName("Mise à jour du statut de la livraison à preparing par le livreur via /deliveries/{id}/preparing")
+    void testPutStatusAssignByDeliverer() throws Exception {
+        // GIVEN
+        Long id = 1L;
+        Long delivererUserId = 3L;
+
+        String requestBody = "{\"deliverId\": " + delivererUserId + "}";
+
+        // WHEN
+        mockMvc.perform(put("/deliveries/{id}/preparing", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                // THEN
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.status.name").value("preparing"))
+                .andExpect(jsonPath("$.deliver.id").value(delivererUserId.toString()));
+    }
+    @Test
+    @DisplayName("Mise à jour du statut de la livraison à delivering par le livreur via /deliveries/{id}/delivered")
+    void testPutStatusDeliveringByDeliverer() throws Exception {
+        // GIVEN
+        Long id = 2L;
+
+
+        // WHEN
+        mockMvc.perform(put("/deliveries/{id}/delivered", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                // THEN
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("2"))
+                .andExpect(jsonPath("$.status.name").value("delivered"));
+    }
+    @Test
+    @DisplayName("Mise à jour du statut de la livraison à closed par le client (après validation) via /deliveries/{id}/close")
+    void testPutStatusClosedByClient() throws Exception {
+        // GIVEN
+        Long id = 3L;
+
+        // WHEN
+        mockMvc.perform(put("/deliveries/{id}/close", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                // THEN
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("3"))
+                .andExpect(jsonPath("$.status.name").value("closed"));
     }
     @Test
     @DisplayName("Création réussie d'une livraison avec un ID client et une liste de plats")

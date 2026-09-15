@@ -65,14 +65,14 @@ INSERT INTO dishs (id, name, price, description, id_restaurant) VALUES
 INSERT INTO status_deliveries (id, name) VALUES
 (1, 'pending'),
 (2, 'preparing'),
- (3, 'delivering'),
-(4, 'delivered');
+ (3, 'delivered'),
+(4, 'closed');
 
 -- ------------------------------------------------------
 -- 10. Insertion des Livraisons (Deliveries)
 -- ------------------------------------------------------
 INSERT INTO deliveries (id, name, id_customer, id_deliverer, id_status, delivery_date) VALUES
-(1, 'CMD-3000404', 4, 3, 2, '2026-09-01'),
+(1, 'CMD-3000404', 4, 3, 1, '2026-09-01'),
 (2, 'CMD-3000405', 5, 3, 2, '2026-09-02'),
 (3, 'CMD-3000406', 4, 3, 3, '2026-09-03'),
 (4, 'CMD-3000407', 1,NULL, 3, '2026-09-03');

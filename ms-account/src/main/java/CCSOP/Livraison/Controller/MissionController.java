@@ -1,6 +1,7 @@
 package CCSOP.Livraison.Controller;
 import CCSOP.Livraison.Service.DeliveryService;
 import CCSOP.Livraison.Entities.Deliver;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/deliveries")
 public class MissionController {
-
+    public record CreateDeliveryRequest(Long customerId, List<Map<String, Object>> menu, List<Map<String, Object>> orders) {}
+    public record AssignDeliveryRequest(Long deliverId) {}
     @Autowired
     private DeliveryService deliveryService;
 
@@ -33,6 +35,40 @@ public class MissionController {
         }
     }
 
+    @PutMapping("/{id}/delivered")
+    public ResponseEntity<Object> putStatusDelivered(@PathVariable Long id) {
+        try {
+            Deliver updatedDelivery = deliveryService.putStatusDelivered(id);
+            return ResponseEntity.ok(updatedDelivery);
+        } catch (EntityNotFoundException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(404).body(errorResponse);
+        }
+    }
+    @PutMapping("/{id}/preparing")
+    public ResponseEntity<Object> testPutStatusAssignByDeliverer(@RequestBody AssignDeliveryRequest request, @PathVariable Long id) {
+        try {
+            Deliver updatedDelivery = deliveryService.putStatusAssignByDeliverer(id,request.deliverId);
+            return ResponseEntity.ok(updatedDelivery);
+        } catch (EntityNotFoundException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(404).body(errorResponse);
+        }
+    }
+    @PutMapping("/{id}/close")
+    public ResponseEntity<Object> testPutStatusClosedByClient(@PathVariable Long id) {
+        try {
+            Deliver updatedDelivery = deliveryService.putStatusClosedByClient(id);
+            return ResponseEntity.ok(updatedDelivery);
+        } catch (EntityNotFoundException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(404).body(errorResponse);
+        }
+    }
+
     @GetMapping("/deliver/{deliverId}")
     public ResponseEntity<List<Deliver>> getDeliveriesByDeliverId(@PathVariable Long deliverId) {
         List<Deliver> deliveries = deliveryService.getDeliveriesByDeliverId(deliverId);
@@ -45,7 +81,7 @@ public class MissionController {
         return ResponseEntity.ok(deliveries);
     }
 
-    public record CreateDeliveryRequest(Long customerId, List<Map<String, Object>> menu, List<Map<String, Object>> orders) {}
+
 
     @PostMapping
     public ResponseEntity<Deliver> createDelivery(@RequestBody CreateDeliveryRequest request) {
