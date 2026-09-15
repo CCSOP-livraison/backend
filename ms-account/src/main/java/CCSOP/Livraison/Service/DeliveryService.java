@@ -11,9 +11,10 @@ import CCSOP.Livraison.Repository.StatusRepository;
 import CCSOP.Livraison.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,7 +56,7 @@ public class DeliveryService {
     public List<Deliver> getDeliveriesByCustomerId(Long customerId) {
         return deliveryRepository.findByCustomerId(customerId);
     }
-
+    @Transactional
     public Deliver createDelivery(Long customerId, List<Map<String, Object>> items) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found with id: " + customerId));
@@ -67,7 +68,7 @@ public class DeliveryService {
         Deliver deliver = new Deliver();
         deliver.setCustomer(customer);
         deliver.setStatus(pendingStatus);
-        deliver.setDelivery_date(new Date());
+        deliver.setDelivery_date(LocalDate.now());
 
         List<Order> orders = new ArrayList<>();
         if (items != null) {
@@ -89,7 +90,9 @@ public class DeliveryService {
             }
         }
         deliver.setOrders(orders);
-
-        return deliveryRepository.save(deliver);
+        deliver.setName("CMD: init");
+        Deliver savedDeliver=deliveryRepository.save(deliver);
+        savedDeliver.setName("CMD: 300"+savedDeliver.getId());
+        return deliveryRepository.save(savedDeliver);
     }
 }

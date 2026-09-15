@@ -1,6 +1,7 @@
 package CCSOP.Livraison.Entities;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Deliver {
     private List<Order> orders;
 
     @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date delivery_date;
+    private LocalDate delivery_date;
 
 
     public void setId(long id) {
@@ -54,7 +55,7 @@ public class Deliver {
         this.orders = orders;
     }
 
-    public void setDelivery_date(java.util.Date delivery_date) {
+    public void setDelivery_date(LocalDate delivery_date) {
         this.delivery_date = delivery_date;
     }
 
@@ -66,7 +67,7 @@ public class Deliver {
         return this.name;
     }
 
-    public java.util.Date getDelivery_date() {
+    public LocalDate getDelivery_date() {
         return delivery_date;
     }
 

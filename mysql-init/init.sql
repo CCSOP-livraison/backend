@@ -33,7 +33,7 @@ CREATE TABLE `deliveries` (
   `id_customer` bigint NOT NULL,
   `id_deliverer` bigint NULL,
   `id_status` bigint NOT NULL,
-  `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `delivery_date` Date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `fk_delivery_customer` (`id_customer`),
@@ -359,9 +359,9 @@ INSERT INTO `status_deliveries` (`id`, `name`) VALUES
 -- 10. Insertion des Livraisons (Deliveries)
 -- ------------------------------------------------------
 INSERT INTO `deliveries` (`id`, `name`,`id_customer`, `id_deliverer`, `id_status`,`delivery_date`) VALUES
-(1,'CMD-3000404',4, 3,2, '2026-09-01 13:10:00'),
-(2,'CMD-3000405',5, 3,2,'2026-09-02 20:20:00'),
-(3,'CMD-3000406',4, 3,3,'2026-09-03 20:50:00');
+(1,'CMD-3000404',4, 3,2, '2026-09-01'),
+(2,'CMD-3000405',5, 3,2,'2026-09-02'),
+(3,'CMD-3000406',4, 3,3,'2026-09-03');
 
 -- ------------------------------------------------------
 -- 9. Insertion des Commandes (deliveries_order)

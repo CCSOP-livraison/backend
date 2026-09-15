@@ -157,6 +157,7 @@ public class MissionControllerTest {
                         .content(jsonRequest))
                 .andExpect(status().isCreated()) // Ou isOk() selon votre code (201 Created est recommandé pour un POST)
                 .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("CMD: 300"+5))
                 .andExpect(jsonPath("$.customer.id").value(4L))
                 .andExpect(jsonPath("$.orders").isArray())
                 .andExpect(jsonPath("$.orders[0].dish.id").value(1L))
