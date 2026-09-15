@@ -1,5 +1,6 @@
 package CCSOP.Livraison.Controller;
 
+import CCSOP.Livraison.Repository.UserRepository;
 import CCSOP.Livraison.Service.AuthService;
 import CCSOP.Livraison.Entities.Role;
 import CCSOP.Livraison.Entities.User;
@@ -17,6 +18,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+
     public record LoginRequest(String email, String password) {}
 
     public record RegisterRequest(
@@ -32,14 +34,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-       Collection<Role> roles =authService.authenticate(request.email(), request.password());
+       User user =authService.authenticate(request.email(), request.password());
 
-        if (roles!=null) {
+        if (user!=null) {
             return ResponseEntity.ok(Map.of(
                     "message", "Connexion réussie !",
-                    "user", request.email(),
+                    "user", user.getEmail(),
+                    "id", user.getId(),
                     "token", "fake-jwt-token-for-dev-12345",
-                    "roles",roles
+                    "roles",user.getRoles()
             ));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -69,7 +72,10 @@ public class AuthController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                     "message", "Inscription réussie !",
-                    "user", registeredUser.getEmail()
+                    "user", registeredUser.getEmail(),
+                    "id", user.getId(),
+                    "token", "fake-jwt-token-for-dev-12345",
+                    "roles",user.getRoles()
             ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)

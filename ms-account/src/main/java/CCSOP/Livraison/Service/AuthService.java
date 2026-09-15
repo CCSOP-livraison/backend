@@ -24,11 +24,11 @@ public class AuthService {
         this.roleRepository = roleRepository;
     }
 
-    public Collection<Role> authenticate(String email, String rawPassword) {
+    public User  authenticate(String email, String rawPassword) {
         User user = this.userrepository.findByEmail(email);
         if (user != null) {
             if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return user.getRoles();
+                return user;
             }
         }
         return null;
