@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class DeliverControllerTest {
+public class DeliveryControllerTest {
     @Autowired
     private WebApplicationContext context;
 
@@ -225,7 +225,7 @@ public class DeliverControllerTest {
                 Map.of("dishId", 1L, "quantity", 0),
                 Map.of("dishId", 3L, "quantity", 0)
         );
-        requestPayload.put("menu", menu); // Ou "orders", selon ce qu'attend votre contrôleur
+        requestPayload.put("menu", menu);
         String jsonRequest = objectMapper.writeValueAsString(requestPayload);
 
         // WHEN & THEN
