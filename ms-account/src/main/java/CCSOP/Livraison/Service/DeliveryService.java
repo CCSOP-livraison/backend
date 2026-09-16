@@ -5,6 +5,7 @@ import CCSOP.Livraison.Entities.Dish;
 import CCSOP.Livraison.Entities.Order;
 import CCSOP.Livraison.Entities.Status;
 import CCSOP.Livraison.Entities.User;
+import CCSOP.Livraison.Exception.EmptyCartException;
 import CCSOP.Livraison.Repository.DeliveryRepository;
 import CCSOP.Livraison.Repository.DishRepository;
 import CCSOP.Livraison.Repository.StatusRepository;
@@ -104,11 +105,8 @@ public class DeliveryService {
                 .orElseGet(() -> statusRepository.findById(1L)
                         .orElseThrow(() -> new IllegalStateException("Default pending status not found")));
 
-        Deliver deliver = new Deliver();
-        deliver.setCustomer(customer);
-        deliver.setStatus(pendingStatus);
-        deliver.setDelivery_date(LocalDate.now());
 
+        Deliver deliver = new Deliver();
         List<Order> orders = new ArrayList<>();
         if (items != null) {
             for (Map<String, Object> item : items) {
@@ -128,6 +126,12 @@ public class DeliveryService {
                 }
             }
         }
+        if(orders.isEmpty()){
+            throw new EmptyCartException("Impossible de créer une commande : le panier est vide.");
+        }
+        deliver.setCustomer(customer);
+        deliver.setStatus(pendingStatus);
+        deliver.setDelivery_date(LocalDate.now());
         deliver.setOrders(orders);
         deliver.setName("CMD: init");
         Deliver savedDeliver=deliveryRepository.save(deliver);

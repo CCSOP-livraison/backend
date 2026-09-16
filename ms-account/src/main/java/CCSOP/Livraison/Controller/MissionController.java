@@ -3,6 +3,7 @@ import CCSOP.Livraison.Service.DeliveryService;
 import CCSOP.Livraison.Entities.Deliver;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,7 +88,7 @@ public class MissionController {
     public ResponseEntity<Deliver> createDelivery(@RequestBody CreateDeliveryRequest request) {
         List<Map<String, Object>> menu = request.menu() != null ? request.menu() : request.orders();
         Deliver created = deliveryService.createDelivery(request.customerId(), menu);
-        return ResponseEntity.status(201).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }
 

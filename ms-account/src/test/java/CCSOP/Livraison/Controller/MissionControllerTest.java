@@ -215,4 +215,25 @@ public class MissionControllerTest {
                 .andExpect(jsonPath("$.deliver").isEmpty())
                 .andExpect(jsonPath("$.delivery_date").value(LocalDate.now().toString()));
     }
+    @Test
+    @DisplayName("Création échoué d'une livraison avec un ID client et une liste de plats")
+    void testCreateDeliveryFail() throws Exception {
+        // GIVEN
+        Map<String, Object> requestPayload = new HashMap<>();
+        requestPayload.put("customerId", 4L);
+        List<Map<String, Object>> menu = List.of(
+                Map.of("dishId", 1L, "quantity", 0),
+                Map.of("dishId", 3L, "quantity", 0)
+        );
+        requestPayload.put("menu", menu); // Ou "orders", selon ce qu'attend votre contrôleur
+        String jsonRequest = objectMapper.writeValueAsString(requestPayload);
+
+        // WHEN & THEN
+        mockMvc.perform(post("/deliveries")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error").exists());
+
+    }
 }
