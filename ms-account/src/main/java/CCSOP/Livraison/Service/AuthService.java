@@ -2,8 +2,8 @@ package CCSOP.Livraison.Service;
 
 import CCSOP.Livraison.Repository.RoleRepository;
 import CCSOP.Livraison.Repository.UserRepository;
-import CCSOP.Livraison.Entities.Role;
-import CCSOP.Livraison.Entities.User;
+import CCSOP.Livraison.Entitie.Role;
+import CCSOP.Livraison.Entitie.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

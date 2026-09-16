@@ -1,4 +1,4 @@
-package CCSOP.Livraison.Entities;
+package CCSOP.Livraison.Entitie;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_deliver")
     @JsonIgnore
-    private Deliver deliver;
+    private Delivery delivery;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_dishs")
@@ -27,12 +27,12 @@ public class Order {
         this.id = id;
     }
 
-    public Deliver getDeliver() {
-        return deliver;
+    public Delivery getDelivery() {
+        return delivery;
     }
 
-    public void setDeliver(Deliver deliver) {
-        this.deliver = deliver;
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 
     public Dish getDish() {

@@ -1,6 +1,6 @@
 package CCSOP.Livraison.Service;
 import CCSOP.Livraison.Repository.DishRepository;
-import CCSOP.Livraison.Entities.Dish;
+import CCSOP.Livraison.Entitie.Dish;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

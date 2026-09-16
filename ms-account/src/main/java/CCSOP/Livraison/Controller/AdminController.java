@@ -7,8 +7,6 @@ public class AdminController {
 
         @GetMapping
         public String helloWorld() {
-
-            // Returning a simple "Hello World" response
             return "Hello World";
         }
 }

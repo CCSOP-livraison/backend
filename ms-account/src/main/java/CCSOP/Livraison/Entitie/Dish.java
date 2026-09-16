@@ -1,4 +1,4 @@
-package CCSOP.Livraison.Entities;
+package CCSOP.Livraison.Entitie;
 
 import jakarta.persistence.*;
 @Table(name="dishs")

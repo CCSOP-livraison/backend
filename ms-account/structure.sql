@@ -19,13 +19,13 @@ CREATE DATABASE IF NOT EXISTS CCSOP_db;
 USE CCSOP_db;
 
 --
--- Table structure for table `deliver`
+-- Table structure for table `delivery`
 --
 
-DROP TABLE IF EXISTS `deliver`;
+DROP TABLE IF EXISTS `delivery`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `deliver` (
+CREATE TABLE `delivery` (
   `id_customer` bigint NOT NULL,
   `id_deliverer` int NOT NULL,
   `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

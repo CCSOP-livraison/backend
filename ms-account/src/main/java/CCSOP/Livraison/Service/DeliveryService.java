@@ -1,14 +1,10 @@
 package CCSOP.Livraison.Service;
 
-import CCSOP.Livraison.Entities.Deliver;
-import CCSOP.Livraison.Entities.Dish;
-import CCSOP.Livraison.Entities.Order;
-import CCSOP.Livraison.Entities.Status;
-import CCSOP.Livraison.Entities.User;
+import CCSOP.Livraison.Entitie.*;
 import CCSOP.Livraison.Exception.EmptyCartException;
 import CCSOP.Livraison.Repository.DeliveryRepository;
 import CCSOP.Livraison.Repository.DishRepository;
-import CCSOP.Livraison.Repository.StatusRepository;
+import CCSOP.Livraison.Repository.StatutRepository;
 import CCSOP.Livraison.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,79 +30,79 @@ public class DeliveryService {
     private DishRepository dishRepository;
 
     @Autowired
-    private StatusRepository statusRepository;
+    private StatutRepository statutRepository;
 
-    public List<Deliver> getAllDeliveriesNotAttribute() {
-        List<Deliver> delivers = deliveryRepository.findAll();
-        List<Deliver> deliversNotAttribute = new ArrayList<>();
-        for (Deliver deliver : delivers) {
-            if (deliver.getDeliver() == null) {
-                deliversNotAttribute.add(deliver);
+    public List<Delivery> getAllDeliveriesNotAttribute() {
+        List<Delivery> deliveries = deliveryRepository.findAll();
+        List<Delivery> deliversNotAttribute = new ArrayList<>();
+        for (Delivery delivery : deliveries) {
+            if (delivery.getDeliver() == null) {
+                deliversNotAttribute.add(delivery);
             }
         }
         return deliversNotAttribute;
     }
 
-    public Optional<Deliver> getDeliveryById(Long id) {
+    public Optional<Delivery> getDeliveryById(Long id) {
         return deliveryRepository.findById(id);
     }
 
-    public Deliver putStatusAssignByDeliverer(Long id, Long deliverId) {
-        Deliver deliver = deliveryRepository.findById(id)
+    public Delivery putStatusAssignByDeliverer(Long id, Long deliverId) {
+        Delivery delivery = deliveryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
-        if(deliver.getStatus().getName().equals("pending")){
+        if(delivery.getStatus().getName().equals("pending")){
             User deliverer = userRepository.findById(deliverId)
                     .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
-            deliver.setDeliver(deliverer);
-            Status deliveredStatus = statusRepository.findByName("preparing")
+            delivery.setDeliver(deliverer);
+            Statut deliveredStatut = statutRepository.findByName("preparing")
                     .orElseThrow(() -> new IllegalStateException("Le statut 'delivered' est introuvable en base de données"));
-            deliver.setStatus(deliveredStatus);
+            delivery.setStatus(deliveredStatut);
         }
-        return deliveryRepository.save(deliver);
+        return deliveryRepository.save(delivery);
     }
 
-    public Deliver putStatusDelivered (Long id) {
-        Deliver deliver = deliveryRepository.findById(id)
+    public Delivery putStatusDelivered (Long id) {
+        Delivery delivery = deliveryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
 
-        if(deliver.getStatus().getName().equals("preparing")){
-            Status deliveredStatus = statusRepository.findByName("delivered")
+        if(delivery.getStatus().getName().equals("preparing")){
+            Statut deliveredStatut = statutRepository.findByName("delivered")
                     .orElseThrow(() -> new IllegalStateException("Le statut 'delivered' est introuvable en base de données"));
-            deliver.setStatus(deliveredStatus);
+            delivery.setStatus(deliveredStatut);
         }
-        return deliveryRepository.save(deliver);
+        return deliveryRepository.save(delivery);
     }
 
-    public Deliver putStatusClosedByClient(Long id) {
-        Deliver deliver = deliveryRepository.findById(id)
+    public Delivery putStatusClosedByClient(Long id) {
+        Delivery delivery = deliveryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Livraison non trouvée avec l'id : " + id));
-        if(deliver.getStatus().getName().equals("delivered")){
-            Status deliveredStatus = statusRepository.findByName("closed")
+        if(delivery.getStatus().getName().equals("delivered")){
+            Statut deliveredStatut = statutRepository.findByName("closed")
                     .orElseThrow(() -> new IllegalStateException("Le statut 'delivered' est introuvable en base de données"));
-            deliver.setStatus(deliveredStatus);
+            delivery.setStatus(deliveredStatut);
         }
-        return deliveryRepository.save(deliver);
+        return deliveryRepository.save(delivery);
     }
 
 
-    public List<Deliver> getDeliveriesByDeliverId(Long deliverId) {
+    public List<Delivery> getDeliveriesByDeliverId(Long deliverId) {
         return deliveryRepository.findByDeliverId(deliverId);
     }
 
-    public List<Deliver> getDeliveriesByCustomerId(Long customerId) {
+    public List<Delivery> getDeliveriesByCustomerId(Long customerId) {
         return deliveryRepository.findByCustomerId(customerId);
     }
     @Transactional
-    public Deliver createDelivery(Long customerId, List<Map<String, Object>> items) {
+    public Delivery createDelivery(Long customerId, List<Map<String, Object>> items) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found with id: " + customerId));
 
-        Status pendingStatus = statusRepository.findByName("pending")
-                .orElseGet(() -> statusRepository.findById(1L)
+        Statut pendingStatut = statutRepository.findByName("pending")
+                .orElseGet(() -> statutRepository.findById(1L)
                         .orElseThrow(() -> new IllegalStateException("Default pending status not found")));
 
 
-        Deliver deliver = new Deliver();
+        Delivery delivery = new Delivery();
         List<Order> orders = new ArrayList<>();
         if (items != null) {
             for (Map<String, Object> item : items) {
@@ -119,7 +115,7 @@ public class DeliveryService {
                             .orElseThrow(() -> new IllegalArgumentException("Dish not found with id: " + dishId));
 
                     Order order = new Order();
-                    order.setDeliver(deliver);
+                    order.setDelivery(delivery);
                     order.setDish(dish);
                     order.setQuantity(quantity);
                     orders.add(order);
@@ -129,13 +125,13 @@ public class DeliveryService {
         if(orders.isEmpty()){
             throw new EmptyCartException("Impossible de créer une commande : le panier est vide.");
         }
-        deliver.setCustomer(customer);
-        deliver.setStatus(pendingStatus);
-        deliver.setDelivery_date(LocalDate.now());
-        deliver.setOrders(orders);
-        deliver.setName("CMD: init");
-        Deliver savedDeliver=deliveryRepository.save(deliver);
-        savedDeliver.setName("CMD: 300"+savedDeliver.getId());
-        return deliveryRepository.save(savedDeliver);
+        delivery.setCustomer(customer);
+        delivery.setStatus(pendingStatut);
+        delivery.setDelivery_date(LocalDate.now());
+        delivery.setOrders(orders);
+        delivery.setName("CMD: init");
+        Delivery savedDelivery =deliveryRepository.save(delivery);
+        savedDelivery.setName("CMD: 300"+ savedDelivery.getId());
+        return deliveryRepository.save(savedDelivery);
     }
 }

@@ -1,20 +1,19 @@
-package CCSOP.Livraison.Entities;
+package CCSOP.Livraison.Entitie;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Table(name="deliveries")
 @Entity
-public class Deliver {
+public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @ManyToOne
     @JoinColumn(name = "id_status")
-    private Status status;
+    private Statut statut;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "id_deliverer",nullable = true)
@@ -24,7 +23,7 @@ public class Deliver {
     @JoinColumn(name = "id_customer")
     private User customer;
 
-    @OneToMany(mappedBy = "deliver", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders;
 
     @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -39,8 +38,8 @@ public class Deliver {
         this.name = name;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(Statut statut) {
+        this.statut = statut;
     }
 
     public void setDeliver(User deliver) {
@@ -71,8 +70,8 @@ public class Deliver {
         return delivery_date;
     }
 
-    public Status getStatus() {
-        return status;
+    public Statut getStatus() {
+        return statut;
     }
 
     public User getDeliver() {

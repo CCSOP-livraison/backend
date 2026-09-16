@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.*;
 public class ModerationController {
     @GetMapping
     public String helloWorld() {
-
-        // Returning a simple "Hello World" response
         return "Hello World";
     }
-
-    }
+}

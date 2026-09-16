@@ -1,6 +1,6 @@
 package CCSOP.Livraison.Repository;
 
-import CCSOP.Livraison.Entities.Privilege;
+import CCSOP.Livraison.Entitie.Privilege;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

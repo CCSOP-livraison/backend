@@ -1,9 +1,9 @@
-package CCSOP.Livraison.Entities;
+package CCSOP.Livraison.Entitie;
 
 import jakarta.persistence.*;
 @Table(name="status_deliveries")
 @Entity
-public class Status {
+public class Statut {
 
 
     @Id

@@ -1,6 +1,6 @@
 package CCSOP.Livraison.Repository;
 
-import CCSOP.Livraison.Entities.Dish;
+import CCSOP.Livraison.Entitie.Dish;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

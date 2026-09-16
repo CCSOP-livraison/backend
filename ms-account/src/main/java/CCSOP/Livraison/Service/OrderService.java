@@ -1,6 +1,6 @@
 package CCSOP.Livraison.Service;
 
-import CCSOP.Livraison.Entities.Order;
+import CCSOP.Livraison.Entitie.Order;
 import CCSOP.Livraison.Repository.OrderRepository;
 import org.springframework.stereotype.Service;
 

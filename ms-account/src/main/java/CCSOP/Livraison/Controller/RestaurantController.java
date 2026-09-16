@@ -2,8 +2,8 @@ package CCSOP.Livraison.Controller;
 
 import CCSOP.Livraison.Repository.RestaurantRepository;
 import CCSOP.Livraison.Service.DishService;
-import CCSOP.Livraison.Entities.Dish;
-import CCSOP.Livraison.Entities.Restaurant;
+import CCSOP.Livraison.Entitie.Dish;
+import CCSOP.Livraison.Entitie.Restaurant;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

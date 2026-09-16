@@ -60,7 +60,7 @@ INSERT INTO dishs (id, name, price, description, id_restaurant) VALUES
 (6, 'Pâtes Carbonara', 14.00, 'Pâtes fraîches avec guanciale, jaune d œuf et pecorino romano.', 2);
 
 -- ------------------------------------------------------
--- 9. Insertion des status de commande (status_deliveries)
+-- 9. Insertion des statut de commande (status_deliveries)
 -- ------------------------------------------------------
 INSERT INTO status_deliveries (id, name) VALUES
 (1, 'pending'),

@@ -2,14 +2,12 @@ package CCSOP.Livraison.Services;
 
 import CCSOP.Livraison.Repository.UserRepository;
 import CCSOP.Livraison.Service.AuthService;
-import CCSOP.Livraison.Entities.Role;
-import CCSOP.Livraison.Entities.User;
+import CCSOP.Livraison.Entitie.Role;
+import CCSOP.Livraison.Entitie.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
