@@ -12,10 +12,10 @@ INSERT INTO roles (id, name) VALUES (3, 'DELIVER');
 INSERT INTO roles (id, name) VALUES (4, 'CUSTOMER');
 
 -- Rôles - Privilèges
-INSERT INTO roles_privileges (role_id, privilege_id) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
-INSERT INTO roles_privileges (role_id, privilege_id) VALUES (2, 1), (2, 2), (2, 4);
-INSERT INTO roles_privileges (role_id, privilege_id) VALUES (3, 1), (3, 2), (3, 5);
-INSERT INTO roles_privileges (role_id, privilege_id) VALUES (4, 1);
+INSERT INTO roles_privileges (id_role, id_privilege) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
+INSERT INTO roles_privileges (id_role, id_privilege) VALUES (2, 1), (2, 2), (2, 4);
+INSERT INTO roles_privileges (id_role, id_privilege) VALUES (3, 1), (3, 2), (3, 5);
+INSERT INTO roles_privileges (id_role, id_privilege) VALUES (4, 1);
 
 -- Utilisateurs (mot de passe: admin123, moderation123, deliver123, customer123)
 -- Admin: Jean Dupont
@@ -39,8 +39,54 @@ INSERT INTO users (id, lastname, firstname, address, zipcode, locate, email, pho
 VALUES (5, 'Moreau', 'Thomas', '45 Rue Nationale', '5900', 'Lille', 'thomas.moreau@example.com', '+33656789012', '$2a$12$Nmk7wM.8sBQMukau4H4au.3qxiAixlnZnnzeFVX98Dodbrul08w3e', true, false);
 
 -- Association Utilisateurs - Rôles
-INSERT INTO users_roles (user_id, role_id) VALUES (1, 1);
-INSERT INTO users_roles (user_id, role_id) VALUES (2, 2);
-INSERT INTO users_roles (user_id, role_id) VALUES (3, 3);
-INSERT INTO users_roles (user_id, role_id) VALUES (4, 4);
-INSERT INTO users_roles (user_id, role_id) VALUES (5, 4);
+INSERT INTO users_roles (id_user, id_role) VALUES (1, 1);
+INSERT INTO users_roles (id_user, id_role) VALUES (2, 2);
+INSERT INTO users_roles (id_user, id_role) VALUES (3, 3);
+INSERT INTO users_roles (id_user, id_role) VALUES (4, 4);
+INSERT INTO users_roles (id_user, id_role) VALUES (5, 4);
+-- Restaurants
+INSERT INTO restaurants (id, name, address, zipcode, locate, summary, description, picture)
+VALUES (1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '6902', 'Lausanne', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10');
+
+INSERT INTO restaurants (id, name, address, zipcode, locate, summary, description, picture)
+VALUES (2, 'La Trattoria Bellecour', '14 Rue de la République', '6902', 'Lausanne', 'Spécialités italiennes', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10');
+
+INSERT INTO dishs (id, name, price, description, id_restaurant) VALUES
+(1, 'Quenelle de Brochet', 18.50, 'Quenelle artisanale nappée de sa sauce Nantua d exception.', 1),
+(2, 'Salade Lyonnaise', 12.00, 'Salade verte, lardons grillés, croutons et œuf poché.', 1),
+(3, 'Filet de Bœuf Pêcher', 24.90, 'Filet de bœuf tendre servi avec gratin dauphinois.', 1),
+(4, 'Pizza Margherita', 11.50, 'Sauce tomate, mozzarella di bufala, basilic frais.', 2),
+(5, 'Tiramisu Classico', 6.50, 'Dessert italien traditionnel au café et mascarpone.', 2),
+(6, 'Pâtes Carbonara', 14.00, 'Pâtes fraîches avec guanciale, jaune d œuf et pecorino romano.', 2);
+
+-- ------------------------------------------------------
+-- 9. Insertion des statut de commande (status_deliveries)
+-- ------------------------------------------------------
+INSERT INTO status_deliveries (id, name) VALUES
+(1, 'pending'),
+(2, 'preparing'),
+ (3, 'delivered'),
+(4, 'closed');
+
+-- ------------------------------------------------------
+-- 10. Insertion des Livraisons (Deliveries)
+-- ------------------------------------------------------
+INSERT INTO deliveries (id, name, id_customer, id_deliverer, id_status, delivery_date) VALUES
+(1, 'CMD-3000404', 4, 3, 1, '2026-09-01'),
+(2, 'CMD-3000405', 5, 3, 2, '2026-09-02'),
+(3, 'CMD-3000406', 4, 3, 3, '2026-09-03'),
+(4, 'CMD-3000407', 1,NULL, 3, '2026-09-03');
+
+-- ------------------------------------------------------
+-- 9. Insertion des Commandes (deliveries_order)
+-- ------------------------------------------------------
+INSERT INTO deliveries_dishs (id,id_dishs, id_deliver, quantity) VALUES
+(1,4, 1, 2),
+(2,5, 1, 1),
+(3,4, 1, 1),
+(4,4, 2, 2),
+(5,5, 2, 1),
+(6,4, 3, 1),
+(7,4, 4, 2),
+(8,5, 4, 1),
+(9,4, 4, 1);

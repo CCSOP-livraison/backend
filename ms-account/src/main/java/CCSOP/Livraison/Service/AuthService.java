@@ -2,8 +2,8 @@ package CCSOP.Livraison.Service;
 
 import CCSOP.Livraison.Repository.RoleRepository;
 import CCSOP.Livraison.Repository.UserRepository;
-import CCSOP.Livraison.entities.Role;
-import CCSOP.Livraison.entities.User;
+import CCSOP.Livraison.Entitie.Role;
+import CCSOP.Livraison.Entitie.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,11 +24,11 @@ public class AuthService {
         this.roleRepository = roleRepository;
     }
 
-    public Collection<Role> authenticate(String email, String rawPassword) {
+    public User  authenticate(String email, String rawPassword) {
         User user = this.userrepository.findByEmail(email);
         if (user != null) {
             if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return user.getRoles();
+                return user;
             }
         }
         return null;

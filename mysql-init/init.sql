@@ -16,27 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 SET FOREIGN_KEY_CHECKS = 0;
-
+SET NAMES utf8mb4;
 CREATE DATABASE IF NOT EXISTS CCSOP_db;
 USE CCSOP_db;
 
 --
--- Table structure for table `deliver`
+-- Table structure for table `deliveries`
 --
 
-DROP TABLE IF EXISTS `deliver`;
+DROP TABLE IF EXISTS `deliveries`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `deliver` (
+CREATE TABLE `deliveries` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
   `id_customer` bigint NOT NULL,
-  `id_deliverer` bigint NOT NULL,
-  `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_customer`,`id_deliverer`,`delivery_date`),
-  KEY `fk_deliver_deliverer` (`id_deliverer`),
-  CONSTRAINT `fk_deliver_customer` FOREIGN KEY (`id_customer`) REFERENCES `users` (`id`),
-  CONSTRAINT `fk_deliver_deliverer` FOREIGN KEY (`id_deliverer`) REFERENCES `users` (`id`)
+  `id_deliverer` bigint NULL,
+  `id_status` bigint NOT NULL,
+  `delivery_date` Date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `fk_delivery_customer` (`id_customer`),
+  KEY `fk_delivery_deliverer` (`id_deliverer`),
+  KEY `fk_delivery_status` (`id_status`),
+  CONSTRAINT `fk_delivery_customer` FOREIGN KEY (`id_customer`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_delivery_deliverer` FOREIGN KEY (`id_deliverer`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_delivery_status` FOREIGN KEY (`id_status`) REFERENCES `status_deliveries` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `dishs`
@@ -52,25 +60,9 @@ CREATE TABLE `dishs` (
   `description` text,
   `id_restaurant` bigint NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
   KEY `fk_dish_restaurant` (`id_restaurant`),
   CONSTRAINT `fk_dish_restaurant` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurants` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `own`
---
-
-DROP TABLE IF EXISTS `own`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `own` (
-  `id_owner` bigint NOT NULL,
-  `id_restaurant` bigint NOT NULL,
-  PRIMARY KEY (`id_owner`,`id_restaurant`),
-  KEY `fk_own_restaurant` (`id_restaurant`),
-  CONSTRAINT `fk_own_owner` FOREIGN KEY (`id_owner`) REFERENCES `users` (`id`),
-  CONSTRAINT `fk_own_restaurant` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurants` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,7 +106,9 @@ CREATE TABLE `restaurants` (
   `locate` varchar(18) DEFAULT NULL,
   `summary` varchar(100) DEFAULT NULL,
   `description` text,
-  PRIMARY KEY (`id`)
+  `picture` Text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,7 +128,20 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `status_delivery`
+--
 
+DROP TABLE IF EXISTS `status_deliveries`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `status_deliveries` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `privileges`
@@ -150,26 +157,42 @@ CREATE TABLE `privileges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
 --
--- Table structure for table `privileges_seq`
+-- Table structure for table `own`
 --
 
-DROP TABLE IF EXISTS `privileges_seq`;
+DROP TABLE IF EXISTS `own`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `privileges_seq` (
-  `next_val` bigint DEFAULT NULL
+CREATE TABLE `own` (
+  `id_owner` bigint NOT NULL,
+  `id_restaurant` bigint NOT NULL,
+  PRIMARY KEY (`id_owner`,`id_restaurant`),
+  KEY `fk_own_restaurant` (`id_restaurant`),
+  KEY `fk_own_owner` (`id_owner`),
+  CONSTRAINT `fk_own_owner` FOREIGN KEY (`id_owner`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_own_restaurant` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurants` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 --
--- Table structure for table `rolesusers_roles_seq`
+-- Table structure for table `deliveries_dishs`
 --
 
-DROP TABLE IF EXISTS `roles_seq`;
+DROP TABLE IF EXISTS `deliveries_dishs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `roles_seq` (
-  `next_val` bigint DEFAULT NULL
+CREATE TABLE `deliveries_dishs` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id_dishs` bigint NOT NULL,
+  `id_deliver` bigint NOT NULL,
+  `quantity` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_orders_dish` (`id_dishs`),
+  KEY `fk_orders_deliveries` (`id_deliver`),
+  CONSTRAINT `fk_orders_dish` FOREIGN KEY (`id_dishs`) REFERENCES `dishs` (`id`),
+  CONSTRAINT `fk_orders_deliveries` FOREIGN KEY (`id_deliver`) REFERENCES `deliveries` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -181,30 +204,12 @@ DROP TABLE IF EXISTS `roles_privileges`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roles_privileges` (
-  `role_id` bigint NOT NULL,
-  `privilege_id` bigint NOT NULL,
-  KEY `FK5yjwxw2gvfyu76j3rgqwo685u` (`privilege_id`),
-  KEY `FK9h2vewsqh8luhfq71xokh4who` (`role_id`),
-  CONSTRAINT `FK5yjwxw2gvfyu76j3rgqwo685u` FOREIGN KEY (`privilege_id`) REFERENCES `privileges` (`id`),
-  CONSTRAINT `FK9h2vewsqh8luhfq71xokh4who` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `to_order`
---
-
-DROP TABLE IF EXISTS `to_order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `to_order` (
-  `id_user` bigint NOT NULL,
-  `id_restaurant` bigint NOT NULL,
-  `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_user`,`id_restaurant`,`order_date`),
-  KEY `fk_order_restaurant` (`id_restaurant`),
-  CONSTRAINT `fk_order_restaurant` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurants` (`id`),
-  CONSTRAINT `fk_order_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
+  `id_role` bigint NOT NULL,
+  `id_privilege` bigint NOT NULL,
+  KEY `FK5yjwxw2gvfyu76j3rgqwo685u` (`id_privilege`),
+  KEY `FK9h2vewsqh8luhfq71xokh4who` (`id_role`),
+  CONSTRAINT `FK5yjwxw2gvfyu76j3rgqwo685u` FOREIGN KEY (`id_privilege`) REFERENCES `privileges` (`id`),
+  CONSTRAINT `FK9h2vewsqh8luhfq71xokh4who` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -216,12 +221,12 @@ DROP TABLE IF EXISTS `users_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users_roles` (
-  `user_id` bigint NOT NULL,
-  `role_id` bigint NOT NULL,
-  KEY `FKt4v0rrweyk393bdgt107vdx0x` (`role_id`),
-  KEY `FK48qhl0k3dvjwm8v1dg614tlqd` (`user_id`),
-  CONSTRAINT `FK48qhl0k3dvjwm8v1dg614tlqd` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+  `id_user` bigint NOT NULL,
+  `id_role` bigint NOT NULL,
+  KEY `FKt4v0rrweyk393bdgt107vdx0x` (`id_role`),
+  KEY `FK48qhl0k3dvjwm8v1dg614tlqd` (`id_user`),
+  CONSTRAINT `FK48qhl0k3dvjwm8v1dg614tlqd` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -246,8 +251,7 @@ USE CCSOP_db;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Nettoyage des tables existantes
-TRUNCATE TABLE `deliver`;
-TRUNCATE TABLE `to_order`;
+TRUNCATE TABLE `deliveries`;
 TRUNCATE TABLE `dishs`;
 TRUNCATE TABLE `own`;
 TRUNCATE TABLE `restaurants`;
@@ -256,8 +260,8 @@ TRUNCATE TABLE `roles_privileges`;
 TRUNCATE TABLE `users`;
 TRUNCATE TABLE `roles`;
 TRUNCATE TABLE `privileges`;
-TRUNCATE TABLE `privileges_seq`;
-TRUNCATE TABLE `roles_seq`;
+TRUNCATE TABLE `status_deliveries`;
+TRUNCATE TABLE `deliveries_dishs`;
 
 -- Réactiver les contraintes de clés étrangères
 SET FOREIGN_KEY_CHECKS = 1;
@@ -272,8 +276,6 @@ INSERT INTO `privileges` (`id`, `name`) VALUES
 (4, 'MANAGE_RESTAURANT'),
 (5, 'DELIVER_ORDER');
 
-INSERT INTO `privileges_seq` (`next_val`) VALUES (6);
-
 -- ------------------------------------------------------
 -- 2. Insertion des Rôles (Roles)
 -- ------------------------------------------------------
@@ -282,13 +284,10 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (2, 'MODERATION'),
 (3, 'DELIVER'),
 (4, 'CUSTOMER');
-
-INSERT INTO `roles_seq` (`next_val`) VALUES (5);
-
 -- ------------------------------------------------------
 -- 3. Association Rôles - Privilèges (roles_privileges)
 -- ------------------------------------------------------
-INSERT INTO `roles_privileges` (`role_id`, `privilege_id`) VALUES
+INSERT INTO `roles_privileges` (`id_role`, `id_privilege`) VALUES
 -- ADMIN a tous les privilèges
 (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
 -- OWNER peut lire, écrire et gérer ses restaurants
@@ -303,16 +302,16 @@ INSERT INTO `roles_privileges` (`role_id`, `privilege_id`) VALUES
 -- Note: zipcode (max 4 chars), locate (max 18 chars)
 -- ------------------------------------------------------
 INSERT INTO `users` (`id`, `lastname`, `firstname`, `address`, `zipcode`, `locate`, `email`, `phone_number`, `credit_card`, `password`, `enabled`, `token_expired`) VALUES
-(1, 'Dupont', 'Jean', '10 Rue de la Paix', '7501', 'Paris', 'jean.dupont@example.com', '+33612345678', '4532111122223333', '$2a$12$0jGHvoJGgN2ocKpJjJWK6OvMAiuhA1ZT41C/6mcH3W9WyYqZUoXAy', b'1', b'0'),
-(2, 'Martin', 'Sophie', '25 Avenue des Fleurs', '6902', 'Lyon', 'sophie.martin@example.com', '+33623456789', '4532222233334444', '$2a$12$5NlLBW8aMIaw26jU.ynT.OD2QQP/ozHYjbDUr.AkhZNI0e.TRnAXG', b'1', b'0'),
-(3, 'Bernard', 'Lucas', '8 Rue des Mimosas', '1301', 'Marseille', 'lucas.bernard@example.com', '+33634567890', '4532333344445555', '$2a$12$1h1depTWc/hfXto3UkVKH.M7.0bWxoJ1qOCl.u.Xk7eJ5mkaYy7OG', b'1', b'0'),
-(4, 'Petit', 'Camille', '12 Boulevard Victor Hugo', '3100', 'Toulouse', 'camille.petit@example.com', '+33645678901', '4532444455556666', '$2a$12$nf.SHVc0D400hsGOasguV.MMZpO5145yrX2hHyGiEM5FbPappDQMm', b'1', b'0'),
-(5, 'Moreau', 'Thomas', '45 Rue Nationale', '5900', 'Lille', 'thomas.moreau@example.com', '+33656789012', '4532555566667777', '$2a$12$Nmk7wM.8sBQMukau4H4au.3qxiAixlnZnnzeFVX98Dodbrul08w3e', b'1', b'0');
+(1, 'Dupont', 'Jean', '10 Rue de la Paix', '1000', 'Lausanne', 'jean.dupont@example.com', '+41612345678', '4532111122223333', '$2a$12$0jGHvoJGgN2ocKpJjJWK6OvMAiuhA1ZT41C/6mcH3W9WyYqZUoXAy', b'1', b'0'),
+(2, 'Martin', 'Sophie', '25 Avenue des Fleurs', '1000', 'Lausanne', 'sophie.martin@example.com', '+41623456789', '4532222233334444', '$2a$12$5NlLBW8aMIaw26jU.ynT.OD2QQP/ozHYjbDUr.AkhZNI0e.TRnAXG', b'1', b'0'),
+(3, 'Bernard', 'Lucas', '8 Rue des Mimosas', '1008', 'Prilly', 'lucas.bernard@example.com', '+41634567890', '4532333344445555', '$2a$12$1h1depTWc/hfXto3UkVKH.M7.0bWxoJ1qOCl.u.Xk7eJ5mkaYy7OG', b'1', b'0'),
+(4, 'Petit', 'Camille', '12 Boulevard Victor Hugo', '1020', 'Renens', 'camille.petit@example.com', '+41645678901', '4532444455556666', '$2a$12$nf.SHVc0D400hsGOasguV.MMZpO5145yrX2hHyGiEM5FbPappDQMm', b'1', b'0'),
+(5, 'Moreau', 'Thomas', '45 Rue Nationale', '1009', 'Pully', 'thomas.moreau@example.com', '+41656789012', '4532555566667777', '$2a$12$Nmk7wM.8sBQMukau4H4au.3qxiAixlnZnnzeFVX98Dodbrul08w3e', b'1', b'0');
 
 -- ------------------------------------------------------
 -- 5. Association Utilisateurs - Rôles (users_roles)
 -- ------------------------------------------------------
-INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
+INSERT INTO `users_roles` (`id_user`, `id_role`) VALUES
 (1, 1), -- Jean (Admin)
 (2, 2), -- Sophie (Restaurateur)
 (3, 3), -- Lucas (Livreur)
@@ -323,9 +322,9 @@ INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
 -- 6. Insertion des Restaurants (Restaurants)
 -- Note: summary max 20 chars
 -- ------------------------------------------------------
-INSERT INTO `restaurants` (`id`, `name`, `address`, `zipcode`, `locate`, `summary`, `description`) VALUES
-(1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '6902', 'Lyon', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.'),
-(2, 'La Trattoria Bellecour', '14 Rue de la République', '6902', 'Lyon', 'Spécialités italien', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.');
+INSERT INTO `restaurants` (`id`, `name`, `address`, `zipcode`, `locate`, `summary`, `description`,`picture`) VALUES
+(1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '1000', 'Lausanne', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10"),
+(2, 'La Trattoria Bellecour', '14 Rue de la République', '1020', 'Renens', 'Spécialités italien', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10");
 
 -- ------------------------------------------------------
 -- 7. Table de liaison Propriétaires (Own)
@@ -347,17 +346,30 @@ INSERT INTO `dishs` (`id`, `name`, `price`, `description`, `id_restaurant`) VALU
 (6, 'Pâtes Carbonara', 14.00, 'Pâtes fraîches avec guanciale, jaune d œuf et pecorino romano.', 2);
 
 -- ------------------------------------------------------
--- 9. Insertion des Commandes (To_order)
+-- 9. Insertion des status de commande (status_deliveries)
 -- ------------------------------------------------------
-INSERT INTO `to_order` (`id_user`, `id_restaurant`, `order_date`) VALUES
-(4, 1, '2026-09-01 12:30:00'),
-(5, 2, '2026-09-02 19:45:00'),
-(4, 2, '2026-09-03 20:15:00');
+INSERT INTO `status_deliveries` (`id`, `name`) VALUES
+(1, 'pending'),
+(2, 'preparing'),
+(3, 'delivered'),
+(4, 'closed');
 
 -- ------------------------------------------------------
--- 10. Insertion des Livraisons (Deliver)
+-- 10. Insertion des Livraisons (Deliveries)
 -- ------------------------------------------------------
-INSERT INTO `deliver` (`id_customer`, `id_deliverer`, `delivery_date`) VALUES
-(4, 3, '2026-09-01 13:10:00'),
-(5, 3, '2026-09-02 20:20:00'),
-(4, 3, '2026-09-03 20:50:00');
+INSERT INTO `deliveries` (`id`, `name`,`id_customer`, `id_deliverer`, `id_status`,`delivery_date`) VALUES
+(1,'CMD-3000404',4, 3,2, '2026-09-01'),
+(2,'CMD-3000405',5, 3,2,'2026-09-02'),
+(3,'CMD-3000406',4, 3,3,'2026-09-03');
+
+-- ------------------------------------------------------
+-- 9. Insertion des Commandes (deliveries_order)
+-- ------------------------------------------------------
+INSERT INTO `deliveries_dishs` (`id`,`id_dishs`, `id_deliver`, `quantity`) VALUES
+(1,4, 1, 2),
+(2,5, 2, 1),
+(3,4, 2, 1),
+(4,4, 3, 1);
+
+
+

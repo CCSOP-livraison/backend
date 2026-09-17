@@ -1,4 +1,4 @@
-package CCSOP.Livraison.entities;
+package CCSOP.Livraison.Entitie;
 import jakarta.persistence.*;
 import java.util.Collection;
 @Table(name="roles")
@@ -6,7 +6,7 @@ import java.util.Collection;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -17,9 +17,9 @@ public class Role {
     @JoinTable(
             name = "roles_privileges",
             joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
+                    name = "id_role", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
-                    name = "privilege_id", referencedColumnName = "id"))
+                    name = "id_privilege", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
     public Role(String name) {

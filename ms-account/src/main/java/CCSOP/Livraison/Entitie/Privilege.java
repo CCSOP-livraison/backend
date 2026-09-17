@@ -1,4 +1,4 @@
-package CCSOP.Livraison.entities;
+package CCSOP.Livraison.Entitie;
 import jakarta.persistence.*;
 import java.util.Collection;
 @Table(name="privileges")
@@ -6,7 +6,7 @@ import java.util.Collection;
 public class Privilege {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

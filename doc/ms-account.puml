@@ -1,0 +1,189 @@
+@startuml
+title Diagramme de Classes - CCSOP-2026
+
+' --- Paramètres d'affichage ---
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+package "ms-account" #fffff2 {
+
+    package "Controllers" #FCC6BB {
+        class AuthController {
+            + register(RegisterRequest): ResponseEntity<?>
+            + login(LoginRequest): ResponseEntity<?>
+        }
+
+        class DeliveryController {
+            + testPutStatusAssignByDeliverer(AssignDeliveryRequest, Long): ResponseEntity<Object>
+            + putStatusDelivered(Long): ResponseEntity<Object>
+            + createDelivery(CreateDeliveryRequest): ResponseEntity<Delivery>
+            + testPutStatusClosedByClient(Long): ResponseEntity<Object>
+            + getDeliveriesByCustomerId(Long): ResponseEntity<List<Delivery>>
+            + getDeliveriesByDeliverId(Long): ResponseEntity<List<Delivery>>
+            + getDeliveryById(Long): ResponseEntity<Object>
+            + getAllDeliveries(): ResponseEntity<List<Delivery>>
+        }
+
+        class RestaurantController {
+            + getRestaurantById(Long): ResponseEntity<Object>
+            + getAllDishs(Long): ResponseEntity<List<Dish>>
+            + getAllRestaurants(): ResponseEntity<List<Restaurant>>
+        }
+    }
+
+    package "Services" #BBFAFC {
+        class AuthService {
+            + authenticate(String, String): User
+            + register(User, String): User
+        }
+
+        class DeliveryService {
+            + createDelivery(Long, List<Map<String, Object>>): Delivery
+            + getDeliveriesByCustomerId(Long): List<Delivery>
+            + putStatusAssignByDeliverer(Long, Long): Delivery
+            + putStatusDelivered(Long): Delivery
+            + getDeliveriesByDeliverId(Long): List<Delivery>
+            + putStatusClosedByClient(Long): Delivery
+            + getDeliveryById(Long): Optional<Delivery>
+            + getAllDeliveriesNotAttribute(): List<Delivery>
+        }
+
+        class DishService {
+            + getDishesByRestaurant(long): List<Dish>
+        }
+
+        class MyUserDetailsService {
+            + loadUserByUsername(String): UserDetails
+            - getPrivileges(Collection<Role>): List<String>
+            - getGrantedAuthorities(List<String>): List<GrantedAuthority>
+            - getAuthorities(Collection<Role>): Collection<GrantedAuthority>
+        }
+
+        class OrderService {
+            + getOrderById(Long): Optional<Order>
+            + saveAllOrders(List<Order>): List<Order>
+            + saveOrder(Order): Order
+            + getAllOrders(): List<Order>
+        }
+
+        class StatutService {
+            + getStatusByName(String): Optional<Statut>
+            + getStatusById(Long): Optional<Statut>
+            + getAllStatus(): List<Statut>
+        }
+    }
+
+    package "Repositories" #FFFFFF{
+        interface DeliveryRepository << interface >> {
+            + findByCustomerId(Long): List<Delivery>
+            + findByDeliverId(Long): List<Delivery>
+        }
+        interface PrivilegeRepository << interface >> {
+            + findByName(String): Privilege
+        }
+        interface RoleRepository << interface >> {
+            + findByName(String): Role
+        }
+        interface StatutRepository << interface >> {
+            + findByName(String): Optional<Statut>
+        }
+        interface UserRepository << interface >> {
+            + findByEmail(String): User
+        }
+    }
+
+    package "Entities" #E5FCBB{
+        class User {
+            - id: long
+            - firstname: String
+            - lastname: String
+            - email: String
+            - password: String
+            - phoneNumber: String
+            - address: String
+            - locate: String
+            - zipcode: String
+            - enabled: boolean
+            - tokenExpired: boolean
+            - roles: Collection<Role>
+        }
+
+        class Restaurant {
+            - id: long
+            - name: String
+            - summary: String
+            - description: String
+            - picture: String
+            - address: String
+            - locate: String
+            - zipcode: String
+        }
+
+        class Dish {
+            - id: long
+            - name: String
+            - description: String
+            - price: Double
+            - restaurant: Restaurant
+        }
+
+        class Delivery {
+            - id: long
+            - name: String
+            - delivery_date: LocalDate
+            - customer: User
+            - deliver: User
+            - orders: List<Order>
+        }
+
+        class Privilege {
+            - name: String
+        }
+
+        class Role {
+            - name: String
+            - privileges: Collection<Privilege>
+        }
+
+        class Order {
+            - id: Long
+            - quantity: int
+            - delivery: Delivery
+            - dish: Dish
+        }
+
+        class Statut {
+            - id: Long
+            - name: String
+        }
+    }
+}
+
+' --- Relations Controller -> Service ---
+AuthController ..> AuthService
+DeliveryController ..> DeliveryService
+RestaurantController ..> DishService
+
+' --- Relations Service -> Service ---
+DeliveryService ..> StatutService
+OrderService ..> DishService
+
+' --- Relations Service -> Repository ---
+AuthService ..> UserRepository
+AuthService ..> PrivilegeRepository
+AuthService ..> RoleRepository
+DeliveryService ..> DeliveryRepository
+DeliveryService ..> StatutRepository
+
+' --- Relations Entité -> Entité ---
+User "1" o-- "*" Role
+Role "1" o-- "*" Privilege
+Dish "*" --> "1" Restaurant : appartient à
+Delivery "*" --> "1" Statut : a pour statut
+Delivery "1" *-- "*" Order : contient
+Order "*" --> "1" Dish : concerne
+Delivery "*" --> "1" User : client
+Delivery "*" --> "1" User : livreur
+
+@enduml

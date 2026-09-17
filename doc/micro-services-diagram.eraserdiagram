@@ -1,0 +1,21 @@
+api-end-user [icon: user]
+
+DockerEngine [icon: aws-vpc] {
+  	DockerNetwork-DMZ{
+   	ms-api-gateway [icon: nginx]
+     }
+        DockerNetwork-ms-account{
+        ms-account [icon: spring]
+     }
+         DockerNetwork-databases{
+         ms-CCSOP-database [icon: mysql]
+         ms-CCSOP-volume [icon: database]
+     }
+     
+  }
+
+// relations
+api-end-user - ms-api-gateway : /api/ccsop
+ms-api-gateway -  ms-account : ms-account,8080
+ms-account - ms-CCSOP-database : 3306
+ms-CCSOP-database - ms-CCSOP-volume

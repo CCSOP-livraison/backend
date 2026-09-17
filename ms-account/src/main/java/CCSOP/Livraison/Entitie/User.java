@@ -1,4 +1,4 @@
-package CCSOP.Livraison.entities;
+package CCSOP.Livraison.Entitie;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 
@@ -26,9 +26,9 @@ public class User {
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
+                    name = "id_user", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
+                    name = "id_role", referencedColumnName = "id"))
     private Collection<Role> roles;
 
     public long getId() {

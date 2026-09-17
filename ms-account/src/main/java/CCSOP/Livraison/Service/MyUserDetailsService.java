@@ -1,9 +1,9 @@
 package CCSOP.Livraison.Service;
 
 import CCSOP.Livraison.Repository.UserRepository;
-import CCSOP.Livraison.entities.Privilege;
-import CCSOP.Livraison.entities.Role;
-import CCSOP.Livraison.entities.User;
+import CCSOP.Livraison.Entitie.Privilege;
+import CCSOP.Livraison.Entitie.Role;
+import CCSOP.Livraison.Entitie.User;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

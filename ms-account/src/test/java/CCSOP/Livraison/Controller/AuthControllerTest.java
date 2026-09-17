@@ -1,4 +1,4 @@
-package CCSOP.Livraison;
+package CCSOP.Livraison.Controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +33,7 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Connexion réussie pour le compte ADMIN via /auth/login")
     void testAdminLoginSuccess() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "jean.dupont@example.com",
@@ -40,9 +41,11 @@ public class AuthControllerTest {
             }
         """;
 
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Connexion réussie !"))
                 .andExpect(jsonPath("$.user").value("jean.dupont@example.com"))
@@ -53,16 +56,18 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Connexion réussie pour le compte CUSTOMER via /auth/login")
     void testCustomerLoginSuccess() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "camille.petit@example.com",
                 "password": "customer123"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Connexion réussie !"))
                 .andExpect(jsonPath("$.user").value("camille.petit@example.com"))
@@ -73,16 +78,18 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Connexion réussie pour le compte DELIVER via /auth/login")
     void testDeliverLoginSuccess() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "lucas.bernard@example.com",
                 "password": "deliver123"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Connexion réussie !"))
                 .andExpect(jsonPath("$.user").value("lucas.bernard@example.com"))
@@ -93,16 +100,18 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Connexion réussie pour le compte MODERATION via /auth/login")
     void testModerationLoginSuccess() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "sophie.martin@example.com",
                 "password": "moderation123"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Connexion réussie !"))
                 .andExpect(jsonPath("$.user").value("sophie.martin@example.com"))
@@ -113,16 +122,18 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Connexion refusée en cas de mauvais mot de passe (401 Unauthorized)")
     void testLoginFailsWithWrongPassword() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "jean.dupont@example.com",
                 "password": "wrongpassword"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("Email ou mot de passe incorrect"));
     }
@@ -130,22 +141,25 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Connexion refusée pour un utilisateur inconnu (401 Unauthorized)")
     void testLoginFailsWithUnknownUser() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "inconnu@example.com",
                 "password": "password123"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("Email ou mot de passe incorrect"));
     }
 
     @Test
     @DisplayName("Inscription réussie pour un nouvel utilisateur via /auth/register")
+    //GIVEN
     void testRegisterSuccess() throws Exception {
         String json = """
             {
@@ -159,10 +173,11 @@ public class AuthControllerTest {
                 "phoneNumber": "+33698765432"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.message").value("Inscription réussie !"))
                 .andExpect(jsonPath("$.user").value("nouveau.client@example.com"));
@@ -171,6 +186,7 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Échec de l'inscription si l'email existe déjà (409 Conflict)")
     void testRegisterEmailAlreadyExists() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "jean.dupont@example.com",
@@ -179,16 +195,18 @@ public class AuthControllerTest {
                 "lastname": "Dupont"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.error").value("Un utilisateur avec cet email existe déjà"));
     }
 
     @Test
     @DisplayName("Échec de l'inscription si l'email est manquant ou vide (400 Bad Request)")
+    //GIVEN
     void testRegisterMissingEmail() throws Exception {
         String json = """
             {
@@ -196,10 +214,11 @@ public class AuthControllerTest {
                 "password": "somePassword123"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("L'email et le mot de passe sont obligatoires"));
     }
@@ -207,16 +226,18 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Échec de l'inscription si le mot de passe est manquant ou vide (400 Bad Request)")
     void testRegisterMissingPassword() throws Exception {
+        //GIVEN
         String json = """
             {
                 "email": "valid.email@example.com",
                 "password": ""
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                //THEN
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("L'email et le mot de passe sont obligatoires"));
     }
@@ -224,6 +245,7 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Un utilisateur nouvellement inscrit peut se connecter via /auth/login")
     void testLoginAfterRegister() throws Exception {
+        //GIVEN
         String registerJson = """
             {
                 "email": "login.after.reg@example.com",
@@ -232,7 +254,6 @@ public class AuthControllerTest {
                 "lastname": "Test"
             }
         """;
-
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerJson))
@@ -244,10 +265,11 @@ public class AuthControllerTest {
                 "password": "securePassword456"
             }
         """;
-
+        //WHEN
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginJson))
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Connexion réussie !"))
                 .andExpect(jsonPath("$.user").value("login.after.reg@example.com"))
