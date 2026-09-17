@@ -12,8 +12,8 @@
 4. [Quick Start](#quick-start)
 5. [Schéma d'Infrastructure Réseau (Docker Compose)](#schéma-dinfrastructure-réseau-docker-compose)
 6. [Conception & Modélisation](#conception--modélisation)
-7. [Pratiques Git & Commits](#Pratiques-Git-&-Commits)
-8. [Validation & Tests pour le End-User](#validation--tests-pour-le-end-user)
+7. [Pratiques Git & Commits](#Pratiques-Git--Commits)
+8. [Guide utilisateur](#Guide-utilisateur)
 9. [Problèmes Connus & Limitations](#problèmes-connus--limitations)
 
 ---
@@ -71,7 +71,7 @@ L'application est accessible via la Gateway sur `http://localhost:NGINX_PORT` (l
 
 ## Schéma d'Infrastructure Réseau (Docker Compose)
 
-📎 **Schéma d'infrastructure réseau** : [voir le diagramme](https://github.com/CCSOP-livraison/backend/blob/develop/doc/diagramm of micro-services.png)
+📎 **Schéma d'infrastructure réseau** : [voir le diagramme](https://github.com/CCSOP-livraison/backend/blob/develop/doc/diagramm%20of%20micro-services.png)
 
 ### Ports & protocoles
 | Flux | Source → Destination | Port | Protocole |
@@ -85,7 +85,7 @@ L'application est accessible via la Gateway sur `http://localhost:NGINX_PORT` (l
 ## Conception & Modélisation
 
 L'ensemble des diagrammes du projet généraux du projet - **modèle conceptuel des données (MCD)**, **planification gantt**, **uses cases** et **diagrammes de séquences** - sont disponibles dans le dossier [`.github/doc`](https://github.com/CCSOP-livraison/.github/tree/main/doc).
-L'ensemble des diagrammes backend du projet - **diagramme de classe** et **diagramme de microservice**- sont disponibles dans le dossier [`.doc`](https://github.com/CCSOP-livraison/backend/tree/main/doc).
+L'ensemble des diagrammes backend du projet - **diagramme de classe** et **diagramme de microservice**- sont disponibles dans le dossier [`.doc`](https://github.com/CCSOP-livraison/backend/tree/develop/doc).
 
 ---
 
@@ -106,7 +106,7 @@ L'équipe applique la spécification [Conventional Commits 1.0.0](https://www.co
 
 ---
 
-## Validation & Tests pour le End-User 
+## Guide utilisateur  
 ### créer une commande
 1. Se connecter avec le compte client de **test** suivant ou créer un nouveau compte utilisateur: 
 email : camille.petit@example.com
