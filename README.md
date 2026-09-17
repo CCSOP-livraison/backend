@@ -33,7 +33,8 @@ Le projet est composé de trois briques principales fonctionnant dans des conten
 ---
 
 ## Choix Technologiques 
-
+| Domaine | Technologie | Justification |
+|---|---|---|
 | Langage & Framework | Java 21 (LTS) + Spring Boot 4 | Écosystème mature et largement documenté pour des API REST ; support long terme de Java 21. |
 | Persistance | Spring Data JPA + MySQL 8.0 | Mapping objet-relationnel standard ; MySQL pour sa fiabilité et sa simplicité d'exploitation. |
 | Passerelle (Gateway) | Nginx | Reverse proxy léger et performant servant de point d'entrée unique et gérant les indisponibilités. |
