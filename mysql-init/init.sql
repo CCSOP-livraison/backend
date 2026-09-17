@@ -302,11 +302,11 @@ INSERT INTO `roles_privileges` (`id_role`, `id_privilege`) VALUES
 -- Note: zipcode (max 4 chars), locate (max 18 chars)
 -- ------------------------------------------------------
 INSERT INTO `users` (`id`, `lastname`, `firstname`, `address`, `zipcode`, `locate`, `email`, `phone_number`, `credit_card`, `password`, `enabled`, `token_expired`) VALUES
-(1, 'Dupont', 'Jean', '10 Rue de la Paix', '7501', 'Paris', 'jean.dupont@example.com', '+33612345678', '4532111122223333', '$2a$12$0jGHvoJGgN2ocKpJjJWK6OvMAiuhA1ZT41C/6mcH3W9WyYqZUoXAy', b'1', b'0'),
-(2, 'Martin', 'Sophie', '25 Avenue des Fleurs', '6902', 'Lyon', 'sophie.martin@example.com', '+33623456789', '4532222233334444', '$2a$12$5NlLBW8aMIaw26jU.ynT.OD2QQP/ozHYjbDUr.AkhZNI0e.TRnAXG', b'1', b'0'),
-(3, 'Bernard', 'Lucas', '8 Rue des Mimosas', '1301', 'Marseille', 'lucas.bernard@example.com', '+33634567890', '4532333344445555', '$2a$12$1h1depTWc/hfXto3UkVKH.M7.0bWxoJ1qOCl.u.Xk7eJ5mkaYy7OG', b'1', b'0'),
-(4, 'Petit', 'Camille', '12 Boulevard Victor Hugo', '3100', 'Toulouse', 'camille.petit@example.com', '+33645678901', '4532444455556666', '$2a$12$nf.SHVc0D400hsGOasguV.MMZpO5145yrX2hHyGiEM5FbPappDQMm', b'1', b'0'),
-(5, 'Moreau', 'Thomas', '45 Rue Nationale', '5900', 'Lille', 'thomas.moreau@example.com', '+33656789012', '4532555566667777', '$2a$12$Nmk7wM.8sBQMukau4H4au.3qxiAixlnZnnzeFVX98Dodbrul08w3e', b'1', b'0');
+(1, 'Dupont', 'Jean', '10 Rue de la Paix', '1000', 'Lausanne', 'jean.dupont@example.com', '+41612345678', '4532111122223333', '$2a$12$0jGHvoJGgN2ocKpJjJWK6OvMAiuhA1ZT41C/6mcH3W9WyYqZUoXAy', b'1', b'0'),
+(2, 'Martin', 'Sophie', '25 Avenue des Fleurs', '1000', 'Lausanne', 'sophie.martin@example.com', '+41623456789', '4532222233334444', '$2a$12$5NlLBW8aMIaw26jU.ynT.OD2QQP/ozHYjbDUr.AkhZNI0e.TRnAXG', b'1', b'0'),
+(3, 'Bernard', 'Lucas', '8 Rue des Mimosas', '1008', 'Prilly', 'lucas.bernard@example.com', '+41634567890', '4532333344445555', '$2a$12$1h1depTWc/hfXto3UkVKH.M7.0bWxoJ1qOCl.u.Xk7eJ5mkaYy7OG', b'1', b'0'),
+(4, 'Petit', 'Camille', '12 Boulevard Victor Hugo', '1020', 'Renens', 'camille.petit@example.com', '+41645678901', '4532444455556666', '$2a$12$nf.SHVc0D400hsGOasguV.MMZpO5145yrX2hHyGiEM5FbPappDQMm', b'1', b'0'),
+(5, 'Moreau', 'Thomas', '45 Rue Nationale', '1009', 'Pully', 'thomas.moreau@example.com', '+41656789012', '4532555566667777', '$2a$12$Nmk7wM.8sBQMukau4H4au.3qxiAixlnZnnzeFVX98Dodbrul08w3e', b'1', b'0');
 
 -- ------------------------------------------------------
 -- 5. Association Utilisateurs - Rôles (users_roles)
@@ -323,8 +323,8 @@ INSERT INTO `users_roles` (`id_user`, `id_role`) VALUES
 -- Note: summary max 20 chars
 -- ------------------------------------------------------
 INSERT INTO `restaurants` (`id`, `name`, `address`, `zipcode`, `locate`, `summary`, `description`,`picture`) VALUES
-(1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '6902', 'Lausanne', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10"),
-(2, 'La Trattoria Bellecour', '14 Rue de la République', '6902', 'Renens', 'Spécialités italien', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10");
+(1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '1000', 'Lausanne', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10"),
+(2, 'La Trattoria Bellecour', '14 Rue de la République', '1020', 'Renens', 'Spécialités italien', 'Authentique trattoria italienne proposant des pizzas au feu de bois et pâtes fraîches maison.',"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10");
 
 -- ------------------------------------------------------
 -- 7. Table de liaison Propriétaires (Own)
@@ -351,9 +351,8 @@ INSERT INTO `dishs` (`id`, `name`, `price`, `description`, `id_restaurant`) VALU
 INSERT INTO `status_deliveries` (`id`, `name`) VALUES
 (1, 'pending'),
 (2, 'preparing'),
-(3, 'delivering'),
-(4, 'delivered'),
-(5, 'closed');
+(3, 'delivered'),
+(4, 'closed');
 
 -- ------------------------------------------------------
 -- 10. Insertion des Livraisons (Deliveries)
