@@ -7,6 +7,12 @@ DockerEngine [icon: aws-vpc] {
         DockerNetwork-ms-account{
         ms-account [icon: spring]
      }
+       DockerNetwork-ms-delivery {
+        ms-delivery [icon: spring]
+     }
+      DockerNetwork-ms-order {
+        ms-order [icon: spring]
+     }
          DockerNetwork-databases{
          ms-CCSOP-database [icon: mysql]
          ms-CCSOP-volume [icon: database]
@@ -17,5 +23,12 @@ DockerEngine [icon: aws-vpc] {
 // relations
 api-end-user - ms-api-gateway : /api/ccsop
 ms-api-gateway -  ms-account : ms-account,8080
+ms-api-gateway -  ms-order : ms-account,8081
+ms-api-gateway -  ms-delivery : ms-account,8082
 ms-account - ms-CCSOP-database : 3306
+ms-order - ms-CCSOP-database : 3306
+ms-delivery - ms-CCSOP-database : 3306
 ms-CCSOP-database - ms-CCSOP-volume
+
+
+
