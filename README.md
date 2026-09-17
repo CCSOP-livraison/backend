@@ -72,7 +72,7 @@ L'application est accessible via la Gateway sur `http://localhost:NGINX_PORT` (l
 
 ## Schéma d'Infrastructure Réseau (Docker Compose)
 
-📎 **Schéma d'infrastructure réseau** : [voir le diagramme](https://github.com/CCSOP-livraison/backend/blob/develop/doc/diagramm%20of%20micro-services.png)
+📎 **Schéma d'infrastructure réseau** : [voir le diagramme](https://github.com/CCSOP-livraison/backend/blob/release/refractor.1/doc/micro-services-diagramm.png)
 
 ### Ports & protocoles
 | Flux | Source → Destination | Port | Protocole |
