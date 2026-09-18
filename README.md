@@ -49,6 +49,8 @@ Pour compiler, exécuter et tester ce projet en local, assurez-vous d'avoir inst
 - **Moteur de base de données** : [MySQL 8.0](https://dev.mysql.com/downloads/mysql/) (géré par Docker en local)
 - **Conteneurs** : [Docker 24+ & Docker Compose v2+](https://docs.docker.com/get-docker/) (Docker Desktop inclut les deux)
 
+### Definition of done 
+Les fonctionnalités ont étaient vérifié au travers de la [Definition of done](https://github.com/CCSOP-livraison/.github/blob/main/profile/definition-of-done.md)
 ---
 
 ## Quick Start
@@ -62,6 +64,8 @@ cp sample.env .env
 # 2. Construire et démarrer tous les services
 docker compose up -d --build
 ```
+> [!NOTE]
+> Il peut arriver lors de la première excécution du "docker compose up" après un build, un échec du "health" control au niveau du MS-Account dans ce cas relancer la commande résous le problème. Car le problème est causé par le code springboot qui ne trouve pas la base de donnée mysql bien qu'elle soie initialisé avant le code spring boot au moment du docker compose up. 
 
 L'application est accessible via la Gateway sur `http://localhost:NGINX_PORT` (le port défini dans votre `.env`).
 
@@ -108,42 +112,7 @@ L'équipe applique la spécification [Conventional Commits 1.0.0](https://www.co
 ---
 
 ## Guide utilisateur  
-### créer une commande
-1. Se connecter avec le compte client de **test** suivant ou créer un nouveau compte utilisateur: 
-email : camille.petit@example.com
-mot de passe : customer123
-
-2. Choisir un restaurant 
-
-3. Aller sur voir la carte 
-
-4. Choisir des plats et valider la commande 
-
-5. Se déconnecter du compte utilisateur 
-
-### s'assigner une livraison
-6. Se connecter avec le compte livreur de **test** suivant : 
-email : lucas.bernard@example.com
-mot de passe : deliver123
-
-7. Cliquer sur la commande créer précédement et se l'assigner
- 1. Scénario alternatif (pour simuler une vérification utilisateur de sa commande au moment où la commande est en cours de traitement): 
- 2. Se déconnecter 
- 3. Se connecter avec le compte de l'utilisateur test camille.petit@example.com  
- 4. Aller sur "mes commande"
- 5. Voir la commande, et là on peut voir "lucas bernard" comme livreur. 
-
-### Clôturé la livraison
-8. Clique sur la commande créer précédement et la valider 
-
-9. Se déconnecter 
-
-10. Se connecter avec le compte de l'utilisateur test camille.petit@example.com  
-
-11. Aller sur "mes commandes"
-
-12. La commande est en état livré et si l'utilisateur la valide elle passe en état terminé.  
-
+Vous retrouverez le Guide utilisateur ici : [Guide utilisateur][([https://github.com/CCSOP-livraison/.github/blob/main/profile/definition-of-done.md]([https://github.com/CCSOP-livraison/.github/blob/main/profile/)Guide-utilisateur.md](https://github.com/CCSOP-livraison/.github/blob/main/profile/Guide-utilisateur.md))](https://github.com/CCSOP-livraison/.github/blob/main/profile/Guide-utilisateur.md)
 ---
 
 ## Problèmes connus & Limitations
