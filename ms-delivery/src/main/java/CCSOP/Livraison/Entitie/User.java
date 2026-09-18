@@ -1,0 +1,141 @@
+package CCSOP.Livraison.Entitie;
+import jakarta.persistence.*;
+import org.jspecify.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@Table(name="users")
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String lastname;
+    private String firstname;
+    private String address;
+    private String zipcode;
+    private String locate;
+    private String email;
+    private String phoneNumber;
+    private String password;
+    private boolean enabled;
+    private boolean tokenExpired;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "id_role", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public void setLocate(String locate) {
+        this.locate = locate;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setTokenExpired(boolean tokenExpired) {
+        this.tokenExpired = tokenExpired;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public @Nullable String getPassword() {
+        return this.password;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public String getZipcode() {
+        return this.zipcode;
+    }
+
+    public String getLocate() {
+        return this.locate;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public boolean isTokenExpired() {
+        return this.tokenExpired;
+    }
+
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
+    public User(){
+
+    }
+    public User(String email, String password, Role roles){
+        this.email=email;
+        this.password=password;
+        this.roles=new ArrayList<>();
+        if (roles != null) {
+            this.roles.add(roles);
+        }
+        this.enabled = true;
+    }
+}
