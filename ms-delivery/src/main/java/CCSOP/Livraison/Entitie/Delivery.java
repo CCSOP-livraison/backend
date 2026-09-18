@@ -1,6 +1,5 @@
 package CCSOP.Livraison.Entitie;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,16 +11,9 @@ public class Delivery {
     private long id;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "id_status")
     private Statut statut;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "id_deliverer",nullable = true)
-    private User deliver;
-
-    @ManyToOne
-    @JoinColumn(name = "id_customer")
-    private User customer;
+    private Long iddeliver;
+    private Long idcustomer;
 
     @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders;
@@ -42,12 +34,12 @@ public class Delivery {
         this.statut = statut;
     }
 
-    public void setDeliver(User deliver) {
-        this.deliver = deliver;
+    public void setDeliver(Long deliver) {
+        this.iddeliver = deliver;
     }
 
-    public void setCustomer(User customer) {
-        this.customer = customer;
+    public void setCustomer(Long customer) {
+        this.idcustomer = customer;
     }
 
     public void setOrders(List<Order> orders) {
@@ -74,12 +66,12 @@ public class Delivery {
         return statut;
     }
 
-    public User getDeliver() {
-        return deliver;
+    public Long getDeliver() {
+        return iddeliver;
     }
 
-    public User getCustomer() {
-        return customer;
+    public Long getCustomer() {
+        return idcustomer;
     }
 
     public List<Order> getOrders() {
