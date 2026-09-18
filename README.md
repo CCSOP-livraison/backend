@@ -30,6 +30,12 @@ Le projet est composé de trois briques principales fonctionnant dans des conten
 2. **ms-account** : Le service Spring Boot gérant l'ensemble du traitement fonctionnel des requêtes auprès du backend. 
 3. **ms-CCSOP-database** : Une base de donnée mysql qui stocke l'ensemble des données du site web. 
 
+### Situation actuelle des branches git 
+Main : branche principale qui heberge la version stable du code. 
+Develop : actuellement identique au Main (modification sur le readme "last minute" appliqué au deux pour assurer la cohérence générale)
+feature/authentificationJWT: la tentative d'implémenter un système d'authentification JWT au sein du projet. 
+release/refractor.1 : Contient les bases pour le refractor des micros-services au sein du projet (détaillé plus amplement dans le rapport)
+
 ---
 
 ## Choix Technologiques 
@@ -50,7 +56,8 @@ Pour compiler, exécuter et tester ce projet en local, assurez-vous d'avoir inst
 - **Conteneurs** : [Docker 24+ & Docker Compose v2+](https://docs.docker.com/get-docker/) (Docker Desktop inclut les deux)
 
 ### Definition of done 
-Les fonctionnalités ont étaient vérifié au travers de la [Definition of done](https://github.com/CCSOP-livraison/.github/blob/main/profile/definition-of-done.md)
+Les fonctionnalités ont été vérifié au travers de la [Definition of done](https://github.com/CCSOP-livraison/.github/blob/main/profile/definition-of-done.md)
+
 ---
 
 ## Quick Start
