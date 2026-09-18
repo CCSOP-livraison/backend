@@ -112,7 +112,7 @@ L'équipe applique la spécification [Conventional Commits 1.0.0](https://www.co
 ---
 
 ## Guide utilisateur  
-Vous retrouverez le Guide utilisateur ici : [Guide utilisateur][([https://github.com/CCSOP-livraison/.github/blob/main/profile/definition-of-done.md]([https://github.com/CCSOP-livraison/.github/blob/main/profile/)Guide-utilisateur.md](https://github.com/CCSOP-livraison/.github/blob/main/profile/Guide-utilisateur.md))](https://github.com/CCSOP-livraison/.github/blob/main/profile/Guide-utilisateur.md)
+Vous retrouverez le Guide utilisateur ici : [Guide utilisateur][(https://github.com/CCSOP-livraison/.github/blob/main/profile/Guide-utilisateur.md)
 ---
 
 ## Problèmes connus & Limitations
