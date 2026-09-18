@@ -1,50 +1,4 @@
--- Privilèges
-INSERT INTO privileges (id, name) VALUES (1, 'READ_PRIVILEGE');
-INSERT INTO privileges (id, name) VALUES (2, 'WRITE_PRIVILEGE');
-INSERT INTO privileges (id, name) VALUES (3, 'DELETE_PRIVILEGE');
-INSERT INTO privileges (id, name) VALUES (4, 'MANAGE_RESTAURANT');
-INSERT INTO privileges (id, name) VALUES (5, 'DELIVER_ORDER');
 
--- Rôles
-INSERT INTO roles (id, name) VALUES (1, 'ADMIN');
-INSERT INTO roles (id, name) VALUES (2, 'MODERATION');
-INSERT INTO roles (id, name) VALUES (3, 'DELIVER');
-INSERT INTO roles (id, name) VALUES (4, 'CUSTOMER');
-
--- Rôles - Privilèges
-INSERT INTO roles_privileges (id_role, id_privilege) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
-INSERT INTO roles_privileges (id_role, id_privilege) VALUES (2, 1), (2, 2), (2, 4);
-INSERT INTO roles_privileges (id_role, id_privilege) VALUES (3, 1), (3, 2), (3, 5);
-INSERT INTO roles_privileges (id_role, id_privilege) VALUES (4, 1);
-
--- Utilisateurs (mot de passe: admin123, moderation123, deliver123, customer123)
--- Admin: Jean Dupont
-INSERT INTO users (id, lastname, firstname, address, zipcode, locate, email, phone_number, password, enabled, token_expired)
-VALUES (1, 'Dupont', 'Jean', '10 Rue de la Paix', '7501', 'Paris', 'jean.dupont@example.com', '+33612345678', '$2a$12$0jGHvoJGgN2ocKpJjJWK6OvMAiuhA1ZT41C/6mcH3W9WyYqZUoXAy', true, false);
-
--- Moderation: Sophie Martin
-INSERT INTO users (id, lastname, firstname, address, zipcode, locate, email, phone_number, password, enabled, token_expired)
-VALUES (2, 'Martin', 'Sophie', '25 Avenue des Fleurs', '6902', 'Lyon', 'sophie.martin@example.com', '+33623456789', '$2a$10$7jWU8ITFjHKp0QcVVYQyh.t20JmpkoZmisHeso6HdH/F6nHmrj3SG', true, false);
-
--- Deliver: Lucas Bernard
-INSERT INTO users (id, lastname, firstname, address, zipcode, locate, email, phone_number, password, enabled, token_expired)
-VALUES (3, 'Bernard', 'Lucas', '8 Rue des Mimosas', '1301', 'Marseille', 'lucas.bernard@example.com', '+33634567890', '$2a$12$1h1depTWc/hfXto3UkVKH.M7.0bWxoJ1qOCl.u.Xk7eJ5mkaYy7OG', true, false);
-
--- Customer: Camille Petit
-INSERT INTO users (id, lastname, firstname, address, zipcode, locate, email, phone_number, password, enabled, token_expired)
-VALUES (4, 'Petit', 'Camille', '12 Boulevard Victor Hugo', '3100', 'Toulouse', 'camille.petit@example.com', '+33645678901', '$2a$12$nf.SHVc0D400hsGOasguV.MMZpO5145yrX2hHyGiEM5FbPappDQMm', true, false);
-
--- Customer: Thomas Moreau
-INSERT INTO users (id, lastname, firstname, address, zipcode, locate, email, phone_number, password, enabled, token_expired)
-VALUES (5, 'Moreau', 'Thomas', '45 Rue Nationale', '5900', 'Lille', 'thomas.moreau@example.com', '+33656789012', '$2a$12$Nmk7wM.8sBQMukau4H4au.3qxiAixlnZnnzeFVX98Dodbrul08w3e', true, false);
-
--- Association Utilisateurs - Rôles
-INSERT INTO users_roles (id_user, id_role) VALUES (1, 1);
-INSERT INTO users_roles (id_user, id_role) VALUES (2, 2);
-INSERT INTO users_roles (id_user, id_role) VALUES (3, 3);
-INSERT INTO users_roles (id_user, id_role) VALUES (4, 4);
-INSERT INTO users_roles (id_user, id_role) VALUES (5, 4);
--- Restaurants
 INSERT INTO restaurants (id, name, address, zipcode, locate, summary, description, picture)
 VALUES (1, 'Le Gourmet Lyon', '25 Avenue des Fleurs', '6902', 'Lausanne', 'Cuisine raffinée', 'Restaurant gastronomique spécialisé dans la cuisine traditionnelle lyonnaise revisitée.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDekeubiw_nphOIeVlfVqIorxTdaqH7nATB4Ut0tdDCg&s=10');
 
@@ -58,35 +12,3 @@ INSERT INTO dishs (id, name, price, description, id_restaurant) VALUES
 (4, 'Pizza Margherita', 11.50, 'Sauce tomate, mozzarella di bufala, basilic frais.', 2),
 (5, 'Tiramisu Classico', 6.50, 'Dessert italien traditionnel au café et mascarpone.', 2),
 (6, 'Pâtes Carbonara', 14.00, 'Pâtes fraîches avec guanciale, jaune d œuf et pecorino romano.', 2);
-
--- ------------------------------------------------------
--- 9. Insertion des statut de commande (status_deliveries)
--- ------------------------------------------------------
-INSERT INTO status_deliveries (id, name) VALUES
-(1, 'pending'),
-(2, 'preparing'),
- (3, 'delivered'),
-(4, 'closed');
-
--- ------------------------------------------------------
--- 10. Insertion des Livraisons (Deliveries)
--- ------------------------------------------------------
-INSERT INTO deliveries (id, name, id_customer, id_deliverer, id_status, delivery_date) VALUES
-(1, 'CMD-3000404', 4, 3, 1, '2026-09-01'),
-(2, 'CMD-3000405', 5, 3, 2, '2026-09-02'),
-(3, 'CMD-3000406', 4, 3, 3, '2026-09-03'),
-(4, 'CMD-3000407', 1,NULL, 3, '2026-09-03');
-
--- ------------------------------------------------------
--- 9. Insertion des Commandes (deliveries_order)
--- ------------------------------------------------------
-INSERT INTO deliveries_dishs (id,id_dishs, id_deliver, quantity) VALUES
-(1,4, 1, 2),
-(2,5, 1, 1),
-(3,4, 1, 1),
-(4,4, 2, 2),
-(5,5, 2, 1),
-(6,4, 3, 1),
-(7,4, 4, 2),
-(8,5, 4, 1),
-(9,4, 4, 1);
