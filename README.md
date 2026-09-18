@@ -31,10 +31,10 @@ Le projet est composé de trois briques principales fonctionnant dans des conten
 3. **ms-CCSOP-database** : Une base de donnée mysql qui stocke l'ensemble des données du site web. 
 
 ### Situation actuelle des branches git 
-Main : branche principale qui heberge la version stable du code. 
-Develop : actuellement identique au Main (modification sur le readme "last minute" appliqué au deux pour assurer la cohérence générale)
-feature/authentificationJWT: la tentative d'implémenter un système d'authentification JWT au sein du projet. 
-release/refractor.1 : Contient les bases pour le refractor des micros-services au sein du projet (détaillé plus amplement dans le rapport)
+- main : branche principale qui heberge la version stable du code. 
+- develop : actuellement identique au Main (modification sur le readme "last minute" appliqué au deux pour assurer la cohérence générale)
+- feature/authentificationJWT: la tentative d'implémenter un système d'authentification JWT au sein du projet. 
+- release/refractor.1 : Contient les bases pour le refractor des micros-services au sein du projet (détaillé plus amplement dans le rapport)
 
 ---
 
